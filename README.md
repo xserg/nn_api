@@ -6,15 +6,17 @@
 
 базы данных
 
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
 DB_DATABASE=nn_base
+
 DB_USERNAME=nn
+
 DB_PASSWORD=nn_api
 
+
 CONTROL_DB_DATABASE=nn_control
+
 CONTROL_DB_USERNAME=nn
+
 CONTROL_DB_PASSWORD=nn_api
 
 
