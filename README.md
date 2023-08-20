@@ -19,7 +19,9 @@ CONTROL_DB_USERNAME=nn
 
 CONTROL_DB_PASSWORD=nn_api
 
+Добавить таблицы 
 
+users, personal_access_tokens
 
 
 ## Документация Api
