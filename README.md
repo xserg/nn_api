@@ -37,11 +37,13 @@ url открываются по клику можно сделать пробн�
 
 Примеры:
 GET /api/comtrols - все записи таблицы control_domains
+
 GET /api/comtrols/{cid} - запись по cid 
+
 POST /api/comtrols - добавление новых записей
 
-/api/controls/did_data/1?domain[]=google.com&domain[]=yandex.ru
+Пример
 
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+GET /api/controls/did_data/1?domain[]=google.com&domain[]=yandex.ru
+
 
