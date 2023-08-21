@@ -1,5 +1,10 @@
 ## Установка
 
+git clone git@github.com:xserg/nn_api.git
+
+composer install
+
+
 Настройка
 
 файл .env 
@@ -19,10 +24,12 @@ CONTROL_DB_USERNAME=nn
 
 CONTROL_DB_PASSWORD=nn_api
 
+
 Добавить таблицы 
 
-users, personal_access_tokens
+users.sql, personal_access_tokens.sql
 
+git@github.com:xserg/nn_api.git
 
 ## Документация Api
 
@@ -32,6 +39,9 @@ users, personal_access_tokens
 php artisan l5-swagger:generate
 
 Авторизация
+/api/register
+/api/login
+возвращает токен авторизации апи
 
 Введите токен авторизации в формате 'Bearer {token}'
 
@@ -40,6 +50,7 @@ php artisan l5-swagger:generate
 url открываются по клику можно сделать пробный запрос 'Try it out'
 
 Примеры:
+
 GET /api/comtrols - все записи таблицы control_domains
 
 GET /api/comtrols/{cid} - запись по cid 

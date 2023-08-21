@@ -240,12 +240,12 @@ class SettingsController extends BaseController
 */
     /**
      * @OA\Delete(
-     *     path="/api/settings/{cid}",
-     *     description="deletes a single lr based on the lamg supplied",
+     *     path="/api/settings/{sid}",
+     *     description="deletes a single setting by sid",
      *     @OA\Parameter(
-     *         description="lang of lr to delete",
+     *         description="sid to delete",
      *         in="path",
-     *         name="cid",
+     *         name="sid",
      *         required=true,
      *         @OA\Schema(
      *             type="integer"
@@ -253,7 +253,7 @@ class SettingsController extends BaseController
      *     ),
      *     @OA\Response(
      *         response=204,
-     *         description="lr deleted"
+     *         description="setting deleted"
      *     ),
      *     @OA\Response(
      *         response="default",

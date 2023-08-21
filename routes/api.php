@@ -40,6 +40,7 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::post('/settings/update/{uid}', [SettingsController::class, 'update2']);
     Route::get('/controls/set_lr/{cid}/{lr}', [ControlController::class, 'set_cid_lr']);
     Route::get('/controls/did_data/{uid}', [ControlController::class, 'get_did_data']);
+    Route::get('/groups/{uid}', [ControlController::class, 'get_group_name']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

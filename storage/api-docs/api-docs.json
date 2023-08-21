@@ -5,6 +5,104 @@
         "version": "1.0"
     },
     "paths": {
+        "/api/login": {
+            "post": {
+                "summary": "Login user",
+                "operationId": "d846bd02cfbdd992c40bfde736b5f21d",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "control response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/register": {
+            "post": {
+                "summary": "Adds a new user",
+                "operationId": "887d97246c6c4a812a1867fa2f50e90e",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "confirm_password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "confirm_password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "control response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/controls": {
             "get": {
                 "summary": "Get controls list",
@@ -185,42 +283,6 @@
                 }
             }
         },
-        "/api/search/{uid}": {
-            "get": {
-                "summary": "Get control by cid",
-                "operationId": "316381905abc90c731157b30047098ab",
-                "parameters": [
-                    {
-                        "name": "cid",
-                        "in": "path",
-                        "description": "Control to fetch",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        },
-                        "example": 4
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "control response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Control_domain"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
         "/api/controls/set_lr/{cid}/{lr}": {
             "get": {
                 "summary": "Set control lr by cid",
@@ -269,7 +331,7 @@
         },
         "/api/controls/did_data/{uid}": {
             "get": {
-                "summary": "Get control by cid",
+                "summary": "Get control by uid",
                 "operationId": "20a9a2ad006e0c7ef143eeecaee513d3",
                 "parameters": [
                     {
@@ -281,7 +343,34 @@
                             "type": "integer",
                             "format": "int64"
                         },
-                        "example": 4
+                        "example": 3
+                    },
+                    {
+                        "name": "did",
+                        "in": "query",
+                        "description": "did",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": 2
+                    },
+                    {
+                        "name": "domain",
+                        "in": "query",
+                        "description": "domain",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "site.com"
+                    },
+                    {
+                        "name": "select",
+                        "in": "query",
+                        "description": "select",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "host_id,hidden,pos_settings"
                     }
                 ],
                 "responses": {
@@ -291,6 +380,54 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Control_domain"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/groups/{uid}": {
+            "get": {
+                "summary": "Get groups  list",
+                "operationId": "3ecac63997ee7f0ee01404e9cbb4891e",
+                "parameters": [
+                    {
+                        "name": "uid",
+                        "in": "path",
+                        "description": "Groups fetch by uid",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 3
+                    },
+                    {
+                        "name": "gid",
+                        "in": "query",
+                        "description": "gid",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "1,3"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "control response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Control_domain"
+                                    }
                                 }
                             }
                         }
@@ -1001,6 +1138,29 @@
                         "sanctum": []
                     }
                 ]
+            },
+            "delete": {
+                "description": "deletes a single setting by sid",
+                "operationId": "acbc7a52e7bca7d5a9f8a77cbdecaed7",
+                "parameters": [
+                    {
+                        "name": "sid",
+                        "in": "path",
+                        "description": "sid to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "setting deleted"
+                    },
+                    "default": {
+                        "description": "unexpected error"
+                    }
+                }
             }
         },
         "/api/settings/search/{uid}": {
@@ -1105,31 +1265,6 @@
                 "responses": {
                     "200": {
                         "description": "OK"
-                    }
-                }
-            }
-        },
-        "/api/settings/{cid}": {
-            "delete": {
-                "description": "deletes a single lr based on the lamg supplied",
-                "operationId": "2a2a4c718f7a3c4abf6cfcc28d62f028",
-                "parameters": [
-                    {
-                        "name": "cid",
-                        "in": "path",
-                        "description": "lang of lr to delete",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "lr deleted"
-                    },
-                    "default": {
-                        "description": "unexpected error"
                     }
                 }
             }
@@ -1290,6 +1425,49 @@
                     }
                 ]
             },
+            "Groups": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "required": [
+                            "uid"
+                        ],
+                        "properties": {
+                            "gid": {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            "uid": {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            "group_name": {
+                                "type": "string"
+                            },
+                            "value": {
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "skip_already": 0,
+                                        "use_yandex_xml": 0,
+                                        "select_gid": 0,
+                                        "f_use_base": 1,
+                                        "f_skip_already": 1,
+                                        "f_check_old": 1
+                                    }
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
             "Settings": {
                 "type": "object",
                 "allOf": [
@@ -1327,6 +1505,28 @@
                                         "f_check_old": 1
                                     }
                                 }
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "User": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "required": [
+                            "name"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "email": {
+                                "type": "string"
+                            },
+                            "password": {
+                                "type": "string"
                             }
                         },
                         "type": "object"
