@@ -51,14 +51,12 @@ url открываются по клику можно сделать пробн�
 
 Примеры:
 
-GET /api/comtrols - все записи таблицы control_domains
+GET /api/controls - все записи таблицы control_domains
 
-GET /api/comtrols/{cid} - запись по cid 
+GET /api/controls/{cid} - запись по cid 
 
-POST /api/comtrols - добавление новых записей
+POST /api/controls - добавление новых записей
 
-Пример
 
-GET /api/controls/did_data/1?domain[]=google.com&domain[]=yandex.ru
 
 
