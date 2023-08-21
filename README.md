@@ -49,6 +49,8 @@ php artisan l5-swagger:generate
 
 url открываются по клику можно сделать пробный запрос 'Try it out'
 
+Тестировать лучше в postman
+
 Примеры:
 
 GET /api/controls - все записи таблицы control_domains
