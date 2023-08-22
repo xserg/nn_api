@@ -27,6 +27,7 @@ class Base_domains extends Model
 
     public $timestamps = false;
     protected $primaryKey = 'did';
+    protected $connection = 'mysql3';
 
     protected $fillable = [
         'domain',
