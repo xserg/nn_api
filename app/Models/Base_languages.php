@@ -27,10 +27,9 @@ class Base_languages extends Model
     use HasFactory;
 
     public $timestamps = false;
-    
     protected $keyType = 'string';
-    
     protected $primaryKey = 'lang';
+    protected $connection = 'mysql3';
 
     protected $fillable = [
         'lang',

@@ -11,17 +11,16 @@ composer install
 
 базы данных
 
-DB_DATABASE=nn_base
-
+DB_DATABASE=nn_api
 DB_USERNAME=nn
-
 DB_PASSWORD=nn_api
 
+BASE_DB_DATABASE=nn_base
+BASE_DB_USERNAME=nn
+BASE_DB_PASSWORD=nn_api
 
 CONTROL_DB_DATABASE=nn_control
-
 CONTROL_DB_USERNAME=nn
-
 CONTROL_DB_PASSWORD=nn_api
 
 
