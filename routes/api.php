@@ -21,7 +21,7 @@ use App\Http\Controllers\API\SettingsController;
 */
 
 Route::post('login', [AuthController::class, 'signin']);
-Route::post('register', [AuthController::class, 'signup']);
+//Route::post('register', [AuthController::class, 'signup']);
      
 Route::middleware('auth:sanctum')->group( function () {
     Route::resource('domains', DomainController::class);
