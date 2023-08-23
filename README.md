@@ -28,8 +28,6 @@ CONTROL_DB_PASSWORD=nn_api
 
 users.sql, personal_access_tokens.sql
 
-git@github.com:xserg/nn_api.git
-
 ## Документация Api
 
 [/api/documentation](/api/documentation#/default)

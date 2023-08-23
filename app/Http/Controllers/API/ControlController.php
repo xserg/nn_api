@@ -18,6 +18,7 @@ class ControlController extends BaseController
   * @OA\GET(
   *     path="/api/controls",
   *     summary="Get controls list",
+  *     tags={"Controls"},   
   *     @OA\Response(
   *         response=200,
   *         description="OK",
@@ -41,6 +42,7 @@ class ControlController extends BaseController
     * @OA\Post(
     *     path="/api/controls",
     *     summary="Adds a new control",
+    *     tags={"Controls"}, 
     *     @OA\RequestBody(
     *         @OA\MediaType(
     *             mediaType="application/json",
@@ -133,6 +135,7 @@ class ControlController extends BaseController
     * @OA\GET(
     *     path="/api/controls/{cid}",
     *     summary="Get control by cid",
+    *     tags={"Controls"},     
     *     @OA\Parameter(
     *         description="Control to fetch",
     *         in="path",
@@ -177,6 +180,7 @@ class ControlController extends BaseController
      * @OA\Put(
      *     path="/api/controls/{cid}",
      *     summary="Updates a control",
+     *     tags={"Controls"},    
      *     @OA\Parameter(
      *         description="cid to update",
      *         in="path",
@@ -225,6 +229,7 @@ class ControlController extends BaseController
      * @OA\Delete(
      *     path="/api/controls/{cid}",
      *     description="deletes a single control based on the lamg supplied",
+     *     tags={"Controls"},      
      *     @OA\Parameter(
      *         description="lang of control to delete",
      *         in="path",
@@ -255,6 +260,7 @@ class ControlController extends BaseController
     * @OA\GET(
     *     path="/api/controls/set_lr/{cid}/{lr}",
     *     summary="Set control lr by cid",
+    *     tags={"Controls"},     
     *     @OA\Parameter(
     *         description="Control to fetch",
     *         in="path",
@@ -302,6 +308,7 @@ class ControlController extends BaseController
     * @OA\GET(
     *     path="/api/controls/did_data/{uid}",
     *     summary="Get control by uid",
+    *     tags={"Controls"},     
     *     @OA\Parameter(
     *         description="Control fetch by uid",
     *         in="path",
@@ -418,6 +425,7 @@ class ControlController extends BaseController
     * @OA\GET(
     *     path="/api/groups/{uid}",
     *     summary="Get groups  list",
+    *     tags={"Groups"},     
     *     @OA\Parameter(
     *         description="Groups fetch by uid",
     *         in="path",

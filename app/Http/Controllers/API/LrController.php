@@ -14,6 +14,7 @@ class LrController extends BaseController
     * @OA\GET(
     *     path="/api/lrs",
     *     summary="Get lrs list",
+    *     tags={"Locations"},         
     *     @OA\Response(
     *         response=200,
     *         description="OK",
@@ -36,6 +37,7 @@ class LrController extends BaseController
     * @OA\Post(
     *     path="/api/lrs",
     *     summary="Adds a new lr",
+    *     tags={"Locations"},     
     *     @OA\RequestBody(
     *         @OA\MediaType(
     *             mediaType="application/json",
@@ -83,6 +85,7 @@ class LrController extends BaseController
     * @OA\GET(
     *     path="/api/lrs/{lr}",
     *     summary="Get location by lr",
+    *     tags={"Locations"}, 
     *     @OA\Parameter(
     *         description="lr to fetch",
     *         in="path",
@@ -111,40 +114,41 @@ class LrController extends BaseController
         return $this->sendResponse(new LrResource($domain), 'Lr fetched.');
     }
     
-        /**
-         * @OA\Put(
-         *     path="/api/lrs/{lr}",
-         *     summary="Updates a lr",
-         *     @OA\Parameter(
-         *         description="lr to fetch",
-         *         in="path",
-         *         name="lr",
-         *         required=true,
-         *         @OA\Schema(
-         *             type="integer",
-         *             format="int64",
-         *         )
-         *     ),    
-         *     @OA\RequestBody(
-         *         @OA\MediaType(
-         *             mediaType="application/json",
-         *             @OA\Schema(
-         *             required={"lr"},
-         *             @OA\Property(property="lr", type="integer"),
-         *             required={"parent_id"},
-         *             @OA\Property(property="parent_id", type="integer"),    
-         *             required={"name"},
-         *             @OA\Property(property="name", type="string"),
-         *             @OA\Property(property="sort", type="integer"),
-         *             )
-         *         )
-         *    ),
-         *     @OA\Response(
-         *         response=200,
-         *         description="OK"
-         *     )
-         * )
-         */      
+    /**
+     * @OA\Put(
+     *     path="/api/lrs/{lr}",
+     *     summary="Updates a lr",
+     *     tags={"Locations"},          
+     *     @OA\Parameter(
+     *         description="lr to fetch",
+     *         in="path",
+     *         name="lr",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int64",
+     *         )
+     *     ),    
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *             required={"lr"},
+     *             @OA\Property(property="lr", type="integer"),
+     *             required={"parent_id"},
+     *             @OA\Property(property="parent_id", type="integer"),    
+     *             required={"name"},
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="sort", type="integer"),
+     *             )
+     *         )
+     *    ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK"
+     *     )
+     * )
+     */      
     public function update(Request $request, Lr $domain)
     {
         $input = $request->all();
@@ -164,6 +168,7 @@ class LrController extends BaseController
      * @OA\Delete(
      *     path="/api/lrs/{lr}",
      *     description="deletes a single lr based on the lamg supplied",
+     *     tags={"Locations"},      
      *     @OA\Parameter(
      *         description="lang of lr to delete",
      *         in="path",

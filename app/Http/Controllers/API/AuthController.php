@@ -14,6 +14,7 @@ class AuthController extends BaseController
   * @OA\Post(
   *     path="/api/login",
   *     summary="Login user",
+  *     tags={"Auth"},  
   *     @OA\RequestBody(
   *         @OA\MediaType(
   *             mediaType="application/json",
@@ -56,6 +57,7 @@ class AuthController extends BaseController
     * @OA\Post(
     *     path="/api/register",
     *     summary="Adds a new user",
+    *     tags={"Auth"},     
     *     @OA\RequestBody(
     *         @OA\MediaType(
     *             mediaType="application/json",

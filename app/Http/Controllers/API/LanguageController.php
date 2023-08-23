@@ -15,6 +15,7 @@ class LanguageController extends BaseController
     * @OA\GET(
     *     path="/api/languages",
     *     summary="Get languages list",
+    *     tags={"Languages"},     
     *     @OA\Response(
     *         response=200,
     *         description="OK",
@@ -38,6 +39,7 @@ class LanguageController extends BaseController
     * @OA\Post(
     *     path="/api/languages",
     *     summary="Adds a new language",
+    *     tags={"Languages"},         
     *     @OA\RequestBody(
     *         @OA\MediaType(
     *             mediaType="application/json",
@@ -94,6 +96,7 @@ class LanguageController extends BaseController
     * @OA\GET(
     *     path="/api/languages/{lang}",
     *     summary="Get language by lang",
+    *     tags={"Languages"},         
     *     @OA\Parameter(
     *         description="laтg to fetch",
     *         in="path",
@@ -126,6 +129,7 @@ class LanguageController extends BaseController
      * @OA\Put(
      *     path="/api/languages/{lang}",
      *     summary="Updates a language",
+     *     tags={"Languages"},          
      *     @OA\Parameter(
      *         description="did to fetch",
      *         in="path",
@@ -180,6 +184,7 @@ class LanguageController extends BaseController
      * @OA\Delete(
      *     path="/api/languages/{lang}",
      *     description="deletes a single language based on the lamg supplied",
+     *     tags={"Languages"},          
      *     @OA\Parameter(
      *         description="lang of language to delete",
      *         in="path",

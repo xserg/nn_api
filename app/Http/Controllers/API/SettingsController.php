@@ -14,6 +14,7 @@ class SettingsController extends BaseController
     * @OA\GET(
     *     path="/api/settings",
     *     summary="Get settings list",
+    *     tags={"Settings"},     
     *     @OA\Response(
     *         response=200,
     *         description="OK",
@@ -37,6 +38,7 @@ class SettingsController extends BaseController
     * @OA\Post(
     *     path="/api/settings",
     *     summary="Adds a new Settings",
+    *     tags={"Settings"},         
     *     @OA\RequestBody(
     *         @OA\MediaType(
     *             mediaType="application/json",
@@ -82,6 +84,7 @@ class SettingsController extends BaseController
     * @OA\GET(
     *     path="/api/settings/{sid}",
     *     summary="Get Settings by {sid}",
+    *     tags={"Settings"},         
     *     @OA\Parameter(
     *         description="cid",
     *         in="path",
@@ -115,6 +118,7 @@ class SettingsController extends BaseController
     * @OA\GET(
     *     path="/api/settings/search/{uid}",
     *     summary="Get Settings for user {uid} and optional {type}",
+    *     tags={"Settings"},         
     *     @OA\Parameter(
     *         description="uid",
     *         in="path",
@@ -163,6 +167,7 @@ class SettingsController extends BaseController
          * @OA\Post(
          *     path="/api/settings/update/{uid}",
          *     summary="Updates settings for uid and type",
+         *     tags={"Settings"},            
          *     @OA\Parameter(
          *         description="uid",
          *         in="path",
@@ -222,26 +227,12 @@ class SettingsController extends BaseController
              $setting = Settings::where('uid', $uid)->where('type', $input['type'])->first();
              return $this->sendResponse(new SettingsResource($setting), 'Settings updated.');
          }
-/*           
-    public function update(Request $request, Setting $setting)
-    {
-        $input = $request->all();
-        $validator = Validator::make($input, [
-            'sid' => 'required',
-        ]);
-        if($validator->fails()){
-            return $this->sendError($validator->errors());       
-        }
-        $setting->uid = $input['uid'];
-        $setting->save();
-        
-        return $this->sendResponse(new SettingsResource($setting), 'Settings updated.');
-    }
-*/
+
     /**
      * @OA\Delete(
      *     path="/api/settings/{sid}",
      *     description="deletes a single setting by sid",
+     *     tags={"Settings"},          
      *     @OA\Parameter(
      *         description="sid to delete",
      *         in="path",

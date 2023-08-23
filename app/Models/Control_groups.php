@@ -39,7 +39,7 @@ class Control_groups extends Model
 
     public $timestamps = false;
     protected $primaryKey = 'gid';
-    protected $connection = 'mysql2';
+    protected $connection = 'db_control';
     
     protected $fillable = [
         'gid',

@@ -7,6 +7,9 @@
     "paths": {
         "/api/login": {
             "post": {
+                "tags": [
+                    "Auth"
+                ],
                 "summary": "Login user",
                 "operationId": "d846bd02cfbdd992c40bfde736b5f21d",
                 "requestBody": {
@@ -53,6 +56,9 @@
         },
         "/api/register": {
             "post": {
+                "tags": [
+                    "Auth"
+                ],
                 "summary": "Adds a new user",
                 "operationId": "887d97246c6c4a812a1867fa2f50e90e",
                 "requestBody": {
@@ -105,6 +111,9 @@
         },
         "/api/controls": {
             "get": {
+                "tags": [
+                    "Controls"
+                ],
                 "summary": "Get controls list",
                 "operationId": "ad1feca766528ce26e0c3bfa4c7dfedd",
                 "responses": {
@@ -129,6 +138,9 @@
                 ]
             },
             "post": {
+                "tags": [
+                    "Controls"
+                ],
                 "summary": "Adds a new control",
                 "operationId": "e8253a56234d58c5ecf3ff5d8d1e12b5",
                 "requestBody": {
@@ -188,6 +200,9 @@
         },
         "/api/controls/{cid}": {
             "get": {
+                "tags": [
+                    "Controls"
+                ],
                 "summary": "Get control by cid",
                 "operationId": "9cc86012cef1fab713a80133f04588aa",
                 "parameters": [
@@ -222,6 +237,9 @@
                 ]
             },
             "put": {
+                "tags": [
+                    "Controls"
+                ],
                 "summary": "Updates a control",
                 "operationId": "4e14372159cbbf066be2d9230aa04bb8",
                 "parameters": [
@@ -260,6 +278,9 @@
                 }
             },
             "delete": {
+                "tags": [
+                    "Controls"
+                ],
                 "description": "deletes a single control based on the lamg supplied",
                 "operationId": "079b9dbf508ffac811f7f5022c75225e",
                 "parameters": [
@@ -285,6 +306,9 @@
         },
         "/api/controls/set_lr/{cid}/{lr}": {
             "get": {
+                "tags": [
+                    "Controls"
+                ],
                 "summary": "Set control lr by cid",
                 "operationId": "d1c2ccadf468bbd903c144cde477128a",
                 "parameters": [
@@ -331,6 +355,9 @@
         },
         "/api/controls/did_data/{uid}": {
             "get": {
+                "tags": [
+                    "Controls"
+                ],
                 "summary": "Get control by uid",
                 "operationId": "20a9a2ad006e0c7ef143eeecaee513d3",
                 "parameters": [
@@ -394,6 +421,9 @@
         },
         "/api/groups/{uid}": {
             "get": {
+                "tags": [
+                    "Groups"
+                ],
                 "summary": "Get groups  list",
                 "operationId": "3ecac63997ee7f0ee01404e9cbb4891e",
                 "parameters": [
@@ -442,6 +472,9 @@
         },
         "/api/domains": {
             "get": {
+                "tags": [
+                    "Domains"
+                ],
                 "summary": "Get domains list",
                 "operationId": "0fb674960fb8707c7469aa43b86f1eec",
                 "responses": {
@@ -466,6 +499,9 @@
                 ]
             },
             "post": {
+                "tags": [
+                    "Domains"
+                ],
                 "summary": "Adds a new domain",
                 "operationId": "0dd1fe568d18e1e60165ec2e19c9a131",
                 "requestBody": {
@@ -509,6 +545,9 @@
         },
         "/api/domains/array": {
             "post": {
+                "tags": [
+                    "Domains"
+                ],
                 "summary": "Adds a new domains from array",
                 "operationId": "f3a9d90eb9d77b519af3a529fdca0b61",
                 "requestBody": {
@@ -583,6 +622,9 @@
         },
         "/api/domains/{did}": {
             "get": {
+                "tags": [
+                    "Domains"
+                ],
                 "summary": "Get domain by did",
                 "operationId": "a7f58ffa3de54611f08c707f927796b3",
                 "parameters": [
@@ -616,6 +658,9 @@
                 ]
             },
             "put": {
+                "tags": [
+                    "Domains"
+                ],
                 "summary": "Updates a domain",
                 "operationId": "f5d642e67be7d08f0ef235a4673c0927",
                 "parameters": [
@@ -654,6 +699,9 @@
                 }
             },
             "delete": {
+                "tags": [
+                    "Domains"
+                ],
                 "description": "deletes a single domain based on the did supplied",
                 "operationId": "f87f9facd20dec425036643c9cb07669",
                 "parameters": [
@@ -678,8 +726,92 @@
                 }
             }
         },
+        "/api/domains/check": {
+            "post": {
+                "tags": [
+                    "Domains"
+                ],
+                "summary": "Check domains from array",
+                "operationId": "5e1236c0ec8d0b9c49095a5fc201eefe",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "check_exist": {
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "domain": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "example": [
+                                            "google.com",
+                                            "yandex.ru",
+                                            "site1.net"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "domain response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Domain"
+                                    }
+                                },
+                                "example": {
+                                    "success": true,
+                                    "data": [
+                                        {
+                                            "domain": "google.com",
+                                            "did": 13,
+                                            "error": "Domain already exist."
+                                        },
+                                        {
+                                            "domain": "yandex.ru",
+                                            "did": 18,
+                                            "error": "Domain already exist."
+                                        },
+                                        {
+                                            "domain": "site1.net",
+                                            "did": 37,
+                                            "error": "Domain already exist."
+                                        }
+                                    ],
+                                    "message": "Request processed"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/languages": {
             "get": {
+                "tags": [
+                    "Languages"
+                ],
                 "summary": "Get languages list",
                 "operationId": "13f72dfeebea6adfa84684cf31bade15",
                 "responses": {
@@ -704,6 +836,9 @@
                 ]
             },
             "post": {
+                "tags": [
+                    "Languages"
+                ],
                 "summary": "Adds a new language",
                 "operationId": "f7b540d1a2e4ba9719a40dc1d8624fa0",
                 "requestBody": {
@@ -759,6 +894,9 @@
         },
         "/api/languages/{lang}": {
             "get": {
+                "tags": [
+                    "Languages"
+                ],
                 "summary": "Get language by lang",
                 "operationId": "102bf94e2acc5ac55f646cec845c9101",
                 "parameters": [
@@ -791,6 +929,9 @@
                 ]
             },
             "put": {
+                "tags": [
+                    "Languages"
+                ],
                 "summary": "Updates a language",
                 "operationId": "e788fc4177bb0020385911bd96e53bfc",
                 "parameters": [
@@ -829,6 +970,9 @@
                 }
             },
             "delete": {
+                "tags": [
+                    "Languages"
+                ],
                 "description": "deletes a single language based on the lamg supplied",
                 "operationId": "82a8402debaa939076228b7bab594d8c",
                 "parameters": [
@@ -854,6 +998,9 @@
         },
         "/api/lrs": {
             "get": {
+                "tags": [
+                    "Locations"
+                ],
                 "summary": "Get lrs list",
                 "operationId": "9bc225375276dc1ad2771727be9ce9a8",
                 "responses": {
@@ -878,6 +1025,9 @@
                 ]
             },
             "post": {
+                "tags": [
+                    "Locations"
+                ],
                 "summary": "Adds a new lr",
                 "operationId": "30e213df2caf9a36db97c0de0f20dbcb",
                 "requestBody": {
@@ -930,6 +1080,9 @@
         },
         "/api/lrs/{lr}": {
             "get": {
+                "tags": [
+                    "Locations"
+                ],
                 "summary": "Get location by lr",
                 "operationId": "71be1c166f1fca4cbaee03d9a44df6cc",
                 "parameters": [
@@ -962,6 +1115,9 @@
                 ]
             },
             "put": {
+                "tags": [
+                    "Locations"
+                ],
                 "summary": "Updates a lr",
                 "operationId": "9328e8ee9b0437a8276a5870fb5b8cc2",
                 "parameters": [
@@ -1009,6 +1165,9 @@
                 }
             },
             "delete": {
+                "tags": [
+                    "Locations"
+                ],
                 "description": "deletes a single lr based on the lamg supplied",
                 "operationId": "4e4ff3e71fb47cffd42d91dbc4ea2c6d",
                 "parameters": [
@@ -1034,6 +1193,9 @@
         },
         "/api/settings": {
             "get": {
+                "tags": [
+                    "Settings"
+                ],
                 "summary": "Get settings list",
                 "operationId": "1cd753a4ee8b65cedc06119ddad10c7f",
                 "responses": {
@@ -1058,6 +1220,9 @@
                 ]
             },
             "post": {
+                "tags": [
+                    "Settings"
+                ],
                 "summary": "Adds a new Settings",
                 "operationId": "0f41def79111195c93d4b0b7d1c1a077",
                 "requestBody": {
@@ -1107,6 +1272,9 @@
         },
         "/api/settings/{sid}": {
             "get": {
+                "tags": [
+                    "Settings"
+                ],
                 "summary": "Get Settings by {sid}",
                 "operationId": "e54765bd534221366a534ba3812642ba",
                 "parameters": [
@@ -1140,6 +1308,9 @@
                 ]
             },
             "delete": {
+                "tags": [
+                    "Settings"
+                ],
                 "description": "deletes a single setting by sid",
                 "operationId": "acbc7a52e7bca7d5a9f8a77cbdecaed7",
                 "parameters": [
@@ -1165,6 +1336,9 @@
         },
         "/api/settings/search/{uid}": {
             "get": {
+                "tags": [
+                    "Settings"
+                ],
                 "summary": "Get Settings for user {uid} and optional {type}",
                 "operationId": "2cf1b7df2edc02fe643478914d20635d",
                 "parameters": [
@@ -1210,6 +1384,9 @@
         },
         "/api/settings/update/{uid}": {
             "post": {
+                "tags": [
+                    "Settings"
+                ],
                 "summary": "Updates settings for uid and type",
                 "operationId": "732934a6f85b98d6245e5abc7d9e1fb1",
                 "parameters": [
