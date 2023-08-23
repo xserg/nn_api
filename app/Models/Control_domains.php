@@ -34,7 +34,7 @@ class Control_domains extends Model
 
     public $timestamps = false;
     protected $primaryKey = 'cid';
-    protected $connection = 'mysql2';
+    protected $connection = 'db_control';
     
     protected $fillable = [
         'cid',

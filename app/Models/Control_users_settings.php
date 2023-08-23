@@ -39,7 +39,7 @@ class Control_users_settings extends Model
 
     public $timestamps = false;
     protected $primaryKey = 'sid';
-    protected $connection = 'mysql2';
+    protected $connection = 'db_control';
     
     protected $fillable = [
         'sid',

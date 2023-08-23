@@ -30,7 +30,7 @@ class Base_lr extends Model
     protected $table = 'base_lr';
     public $timestamps = false;
     protected $primaryKey = 'lr';
-    protected $connection = 'mysql3';    
+    protected $connection = 'db_base';    
 
     protected $fillable = [
         'lr',

@@ -27,7 +27,7 @@ class Base_domains extends Model
 
     public $timestamps = false;
     protected $primaryKey = 'did';
-    protected $connection = 'mysql3';
+    protected $connection = 'db_base';
 
     protected $fillable = [
         'domain',
@@ -49,13 +49,13 @@ class Base_domains extends Model
         }
         $res = $this->create(['domain' => $this->domain]);
         $this->did = $res->did; 
-        //$this->save();
         return true;
     }
     
     
     public function check_domain_name($domain, $check_exists=true)
     {
+      $this->error = '';
       if (!$this->correct($domain)) { return false; } // корректность домена
       if ($check_exists && !$this->exists($domain)) { return false; } // домен не зареген в сети интернет
       return true;

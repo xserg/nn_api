@@ -26,6 +26,7 @@ Route::post('register', [AuthController::class, 'signup']);
 Route::middleware('auth:sanctum')->group( function () {
     Route::resource('domains', DomainController::class);
     Route::post('/domains/array', [DomainController::class, 'store_arr']);
+    Route::post('/domains/check', [DomainController::class, 'check']);
     //->missing(function (Request $request) { return Redirect::route('domains.show', [$request['did']]); });
     Route::resource('languages', LanguageController::class);
     Route::resource('lrs', LrController::class);

@@ -29,7 +29,7 @@ class Base_languages extends Model
     public $timestamps = false;
     protected $keyType = 'string';
     protected $primaryKey = 'lang';
-    protected $connection = 'mysql3';
+    protected $connection = 'db_base';
 
     protected $fillable = [
         'lang',
