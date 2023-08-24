@@ -14,7 +14,7 @@ class LrController extends BaseController
     * @OA\GET(
     *     path="/api/lrs",
     *     summary="Get lrs list",
-    *     tags={"Locations"},         
+    *     tags={"Lr"},         
     *     @OA\Response(
     *         response=200,
     *         description="OK",
@@ -33,59 +33,12 @@ class LrController extends BaseController
         $lr = Lr::orderBy('lr')->get();
         return $this->sendResponse(LrResource::collection($lr), 'Lr fetched.');
     }
-    /**
-    * @OA\Post(
-    *     path="/api/lrs",
-    *     summary="Adds a new lr",
-    *     tags={"Locations"},     
-    *     @OA\RequestBody(
-    *         @OA\MediaType(
-    *             mediaType="application/json",
-    *             @OA\Schema(
-    *             required={"lr"},
-    *             @OA\Property(property="lr", type="integer"),
-    *             required={"parent_id"},
-    *             @OA\Property(property="parent_id", type="integer"),    
-    *             required={"name"},
-    *             @OA\Property(property="name", type="string"),
-    *             @OA\Property(property="sort", type="integer"),
-    *             )
-    *         )
-    *    ),
-    *     @OA\Response(
-    *         response=200,
-    *         description="OK",
-    *         response=200,
-    *         description="lr response",
-    *         @OA\JsonContent(
-    *             type="array",
-    *             @OA\Items(ref="#/components/schemas/Location")
-    *         ),
-    *     ),
-    *     security={ * {"sanctum": {}}, * },
-    * )
-    */       
-    public function store(Request $request)
-    {
-        $input = $request->all();
-        $validator = Validator::make($input, [
-            'name' => 'required',
-            'parent_id' => 'required',
-            'sort',
-        ]);
-        if($validator->fails()){
-            return $this->sendError($validator->errors());       
-        }
-        $lr = Lr::create($input);
-        return $this->sendResponse(new LrResource($lr), 'Lr created.');
-    }
-
     
     /**
     * @OA\GET(
     *     path="/api/lrs/{lr}",
     *     summary="Get location by lr",
-    *     tags={"Locations"}, 
+    *     tags={"Lr"}, 
     *     @OA\Parameter(
     *         description="lr to fetch",
     *         in="path",
@@ -107,91 +60,41 @@ class LrController extends BaseController
     */        
     public function show($id)
     {
-        $domain = Lr::find($id);
-        if (is_null($domain)) {
+        $lr = Lr::find($id);
+        if (is_null($lr)) {
             return $this->sendError('Lr does not exist.');
         }
-        return $this->sendResponse(new LrResource($domain), 'Lr fetched.');
+        return $this->sendResponse(new LrResource($lr), 'Lr fetched.');
     }
     
     /**
-     * @OA\Put(
-     *     path="/api/lrs/{lr}",
-     *     summary="Updates a lr",
-     *     tags={"Locations"},          
-     *     @OA\Parameter(
-     *         description="lr to fetch",
-     *         in="path",
-     *         name="lr",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer",
-     *             format="int64",
-     *         )
-     *     ),    
-     *     @OA\RequestBody(
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *             @OA\Schema(
-     *             required={"lr"},
-     *             @OA\Property(property="lr", type="integer"),
-     *             required={"parent_id"},
-     *             @OA\Property(property="parent_id", type="integer"),    
-     *             required={"name"},
-     *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="sort", type="integer"),
-     *             )
-     *         )
-     *    ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="OK"
-     *     )
-     * )
-     */      
-    public function update(Request $request, Lr $domain)
+    * @OA\GET(
+    *     path="/api/lrs/search/{search}",
+    *     summary="Get lr search",
+    *     tags={"Lr"},         
+    *     @OA\Parameter(
+    *         description="search",
+    *         in="path",
+    *         name="search",
+    *         required=true,
+    *         @OA\Schema(
+    *             type="string",
+    *             example="Мос",
+    *         ),
+    *     ),
+    *     @OA\Response(
+    *         response=200,
+    *         description="OK",
+    *         response=200,
+    *         description="lr response",
+    *         @OA\JsonContent(ref="#/components/schemas/Location"),
+    *     ),
+    *     security={ * {"sanctum": {}}, * },
+    * )
+    */  
+    public function search($search)
     {
-        $input = $request->all();
-        $validator = Validator::make($input, [
-            'lr' => 'required',
-        ]);
-        if($validator->fails()){
-            return $this->sendError($validator->errors());       
-        }
-        $domain->domain = $input['domain'];
-        $domain->save();
-        
-        return $this->sendResponse(new LrResource($domain), 'Lr updated.');
-    }
-
-    /**
-     * @OA\Delete(
-     *     path="/api/lrs/{lr}",
-     *     description="deletes a single lr based on the lamg supplied",
-     *     tags={"Locations"},      
-     *     @OA\Parameter(
-     *         description="lang of lr to delete",
-     *         in="path",
-     *         name="lr",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=204,
-     *         description="lr deleted"
-     *     ),
-     *     @OA\Response(
-     *         response="default",
-     *         description="unexpected error",
-     *         @OA\Schema(ref="#/components/schemas/ErrorModel")
-     *     )
-     * )
-     */      
-    public function destroy(Lr $domain)
-    {
-        $domain->delete();
-        return $this->sendResponse([], 'Lr deleted.');
+        $lr = Lr::where('name', 'like', $search . '%')->get();
+        return $this->sendResponse(LrResource::collection($lr), 'Lrs fetched.');
     }
 }

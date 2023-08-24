@@ -25,23 +25,26 @@ Route::post('login', [AuthController::class, 'signin']);
      
 Route::middleware('auth:sanctum')->group( function () {
     Route::resource('domains', DomainController::class);
-    Route::post('/domains/array', [DomainController::class, 'store_arr']);
+    Route::post('/domains/add', [DomainController::class, 'store_arr']);
     Route::post('/domains/check', [DomainController::class, 'check']);
-    //->missing(function (Request $request) { return Redirect::route('domains.show', [$request['did']]); });
+    Route::post('/domains/get_did', [DomainController::class, 'get_did']);
+    Route::post('/domains/get_domain', [DomainController::class, 'get_domain']);
     Route::resource('languages', LanguageController::class);
     Route::resource('lrs', LrController::class);
     Route::resource('controls', ControlController::class);
-    Route::resource('settings', SettingsController::class);
+    Route::resource('user-settings', SettingsController::class);
     
     //Route::get('/settings/{uid}/{type?}', [SettingsController::class, 'show']);
     //Route::get('/settings/search/{uid}', function (Request $request, $uid) {
       //return [SettingsController::class, 'search'];
     //});
-    Route::get('/settings/search/{uid}', [SettingsController::class, 'search']);
-    Route::post('/settings/update/{uid}', [SettingsController::class, 'update2']);
+    
+    Route::get('/user-settings/search/{uid}', [SettingsController::class, 'search']);
+    Route::post('/user-settings/update/{uid}', [SettingsController::class, 'update2']);
     Route::get('/controls/set_lr/{cid}/{lr}', [ControlController::class, 'set_cid_lr']);
     Route::get('/controls/did_data/{uid}', [ControlController::class, 'get_did_data']);
     Route::get('/groups/{uid}', [ControlController::class, 'get_group_name']);
+    Route::get('/lrs/search/{search}', [LrController::class, 'search']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

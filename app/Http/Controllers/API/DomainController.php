@@ -44,59 +44,7 @@ class DomainController extends BaseController
     
     /**
     * @OA\Post(
-    *     path="/api/domains",
-    *     summary="Adds a new domain",
-    *     tags={"Domains"},
-    *     @OA\RequestBody(
-    *         @OA\MediaType(
-    *             mediaType="application/json",
-    *             @OA\Schema(
-    *                 @OA\Property(
-    *                     property="domain",
-    *                     type="string"
-    *                 ),
-    *                 example={"domain": "google.com"}
-    *             )
-    *         )
-    *     ),
-    *     @OA\Response(
-    *         response=200,
-    *         description="OK",
-    *         response=200,
-    *         description="domain response",
-    *         @OA\JsonContent(
-    *             type="array",
-    *             @OA\Items(ref="#/components/schemas/Domain")
-    *         ),
-    *     ),
-    *     security={ * {"sanctum": {}}, * },
-    * )
-    */    
-    public function store(Request $request)
-    {
-        $input = $request->all();
-        $validator = Validator::make($input, [
-            'domain' => 'required',
-        ]);
-        if($validator->fails()){
-            return $this->sendError($validator->errors());       
-        }
-        
-        $domain = new Domain;        
-        if($domain->store($input['domain'], false)) {
-            return $this->sendResponse(new DomainResource($domain), 'Domain created.');
-        } else {
-            if ($domain->did) {
-                
-            }
-            return $this->sendError($domain->error, $domain); 
-        }
-
-    }
-
-    /**
-    * @OA\Post(
-    *     path="/api/domains/array",
+    *     path="/api/domains/add",
     *     summary="Adds a new domains from array",
     *     tags={"Domains"},    
     *     @OA\RequestBody(
@@ -104,7 +52,7 @@ class DomainController extends BaseController
     *             mediaType="application/json",
     *             @OA\Schema(
     *             @OA\Property(
-    *               property="domain", type="array",
+    *               property="domains", type="array",
     *               @OA\Items( @OA\Property( type="string")), 
     *               example={
     *                      "google.com",
@@ -153,23 +101,14 @@ class DomainController extends BaseController
     {
       $input = $request->all();
       $validator = Validator::make($input, [
-          'domain' => 'required',
+          'domains' => 'required',
       ]);
       if($validator->fails()){
           return $this->sendError($validator->errors());       
       }
-      
-      if (is_array($input['domain'])) {
-          $domain_arr = $input['domain'];
-      } elseif (preg_match('/,/', $input['domain'])) {
-          $domain_arr = explode(',', $input['domain']);
-      } else {
-          $domain_arr = [$input['domain']];
-      }
-      
       $domain = new Domain;              
       $i = 0;
-      foreach ($domain_arr as $domain_name) {
+      foreach ($input['domains'] as $domain_name) {
           $domain->store($domain_name, false);
           //print_r(new DomainResource($domain));
           //if($domain->store($input['domain'], false)) {
@@ -214,96 +153,6 @@ class DomainController extends BaseController
             return $this->sendError('Domain does not exist.');
         }
         return $this->sendResponse(new DomainResource($domain), 'Domain fetched.');
-    }
-    
-    /**
-     * @OA\Put(
-     *     path="/api/domains/{did}",
-     *     summary="Updates a domain",
-    *     tags={"Domains"},     
-     *     @OA\Parameter(
-     *         description="did to fetch",
-     *         in="path",
-     *         name="did",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer",
-     *             format="int64",
-     *         )
-     *     ),    
-     *     @OA\RequestBody(
-     *         @OA\MediaType(
-     *             mediaType="application/x-www-form-urlencoded",
-     *             @OA\Schema(
-     *                 @OA\Property(
-     *                     property="domain",
-     *                     type="string"
-     *                 ),
-     *                 example={"domain": "google.com"}
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="OK"
-     *     )
-     * )
-     */
-    public function update(Request $request, Domain $domain)
-    {
-        if (empty($domain)) {
-            return $this->sendError('Domain does not exist.');
-        }
-
-        $input = $request->all();
-        $validator = Validator::make($input, [
-            'domain' => 'required',
-        ]);
-        if($validator->fails()){
-            return $this->sendError($validator->errors());       
-        }
-        
-        //$domain->domain = $domain->trim($input['domain']);
-        //$domain->domain = $input['domain'];
-        
-        $domain->update($input);
-        //$domain->save();
-        
-        return $this->sendResponse(new DomainResource($domain), 'Domain updated.');
-    }
-    /**
-     * @OA\Delete(
-     *     path="/api/domains/{did}",
-     *     description="deletes a single domain based on the did supplied",
-    *     tags={"Domains"},     
-     *     @OA\Parameter(
-     *         description="did of domain to delete",
-     *         in="path",
-     *         name="did",
-     *         required=true,
-     *         @OA\Schema(
-     *             format="int64",
-     *             type="integer"
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=204,
-     *         description="domain deleted"
-     *     ),
-     *     @OA\Response(
-     *         response="default",
-     *         description="unexpected error",
-     *         @OA\Schema(ref="#/components/schemas/ErrorModel")
-     *     )
-     * )
-     */   
-    public function destroy(Domain $domain)
-    {
-      if (empty($domain)) {
-          return $this->sendError('Domain does not exist.');
-      }
-        $domain->delete();
-        return $this->sendResponse([], 'Domain deleted.');
     }
     
     /**
@@ -392,5 +241,136 @@ class DomainController extends BaseController
       
       return $this->sendResponse($did_arr, 'Request processed');                
     }
+
+    /**
+    * @OA\Post(
+    *     path="/api/domains/get_did",
+    *     summary="Adds a new domains from array",
+    *     tags={"Domains"},    
+    *     @OA\RequestBody(
+    *         @OA\MediaType(
+    *             mediaType="application/json",
+    *             @OA\Schema(
+    *             @OA\Property(
+    *               property="domain", type="array",
+    *               @OA\Items( @OA\Property( type="string")), 
+    *               example={
+    *                      "google.com",
+    *                      "yandex.ru",
+    *                      "site1.net",
+    *               },
+    *             ),
+    *             )
+    *         )
+    *     ),
+    *     @OA\Response(
+    *         response=200,
+    *         description="OK",
+    *         response=200,
+    *         description="domain response",
+    *         @OA\JsonContent(
+    *             type="array",
+    *             @OA\Items(ref="#/components/schemas/Domain"),
+    *         
+    *         example={
+    *            "success": true,
+    *            "data": 
+    *            {
+    *             {
+    *                "domain": "ya.ru",
+    *                "did": 19
+    *             },
+    *             {
+    *                "domain": "11111",
+    *                "did": false
+    *             }
+    *           },
+    *          "message": "Request processed"
+    *      }),
+    *     ),
+    *     security={ * {"sanctum": {}}, * },
+    * )
+    */       
+    public function get_did(Request $request)
+    {
+      $input = $request->all();
+      $validator = Validator::make($input, [
+          'domain' => 'required',
+      ]);
+      if($validator->fails()){
+          return $this->sendError($validator->errors());       
+      }
+      $domain_arr = array_map('trim', $input['domain']);   
+      foreach ($domain_arr as $domain_name) {
+          $domain = Domain::where('domain', $domain_name)->first();
+          $did_arr[] = ['domain' => $domain_name, 'did' =>  $domain->did ?? false];
+      }       
+      return $this->sendResponse($did_arr, 'Got did');            
+    }
     
+    /**
+    * @OA\Post(
+    *     path="/api/domains/get_domain",
+    *     summary="Get domain domains by did array",
+    *     tags={"Domains"},    
+    *     @OA\RequestBody(
+    *         @OA\MediaType(
+    *             mediaType="application/json",
+    *             @OA\Schema(
+    *             @OA\Property(
+    *               property="did", type="array",
+    *               @OA\Items( @OA\Property( type="string")), 
+    *               example={
+    *                      11,
+    *                      12,
+    *                      13,
+    *               },
+    *             ),
+    *             )
+    *         )
+    *     ),
+    *     @OA\Response(
+    *         response=200,
+    *         description="OK",
+    *         response=200,
+    *         description="domain response",
+    *         @OA\JsonContent(
+    *             type="array",
+    *             @OA\Items(ref="#/components/schemas/Domain"),
+    *         
+    *         example={
+    *            "success": true,
+    *            "data": 
+    *            {
+    *             {
+    *                "domain": "ya.ru",
+    *                "did": 19
+    *             },
+    *             {
+    *                "domain": false,
+    *                "did": 12
+    *             }
+    *           },
+    *          "message": "Request processed"
+    *      }),
+    *     ),
+    *     security={ * {"sanctum": {}}, * },
+    * )
+    */       
+    public function get_domain(Request $request)
+    {
+      $input = $request->all();
+      $validator = Validator::make($input, [
+          'did' => 'required',
+      ]);
+      if($validator->fails()){
+          return $this->sendError($validator->errors());       
+      }
+      $did_arr = array_map('trim', $input['did']);   
+      foreach ($did_arr as $did) {
+          $domain = Domain::find($did);
+          $domain_arr[] = ['domain' => $domain->domain ?? false, 'did' =>  $did];
+      }       
+      return $this->sendResponse($domain_arr, 'Got domain');            
+    }
 }

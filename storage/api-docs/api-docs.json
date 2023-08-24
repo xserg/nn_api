@@ -497,65 +497,21 @@
                         "sanctum": []
                     }
                 ]
-            },
-            "post": {
-                "tags": [
-                    "Domains"
-                ],
-                "summary": "Adds a new domain",
-                "operationId": "0dd1fe568d18e1e60165ec2e19c9a131",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "domain": {
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object",
-                                "example": {
-                                    "domain": "google.com"
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "domain response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Domain"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
             }
         },
-        "/api/domains/array": {
+        "/api/domains/add": {
             "post": {
                 "tags": [
                     "Domains"
                 ],
                 "summary": "Adds a new domains from array",
-                "operationId": "f3a9d90eb9d77b519af3a529fdca0b61",
+                "operationId": "c057464b069c41cc29b854a1d143be1b",
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "domain": {
+                                    "domains": {
                                         "type": "array",
                                         "items": {
                                             "properties": {
@@ -656,74 +612,6 @@
                         "sanctum": []
                     }
                 ]
-            },
-            "put": {
-                "tags": [
-                    "Domains"
-                ],
-                "summary": "Updates a domain",
-                "operationId": "f5d642e67be7d08f0ef235a4673c0927",
-                "parameters": [
-                    {
-                        "name": "did",
-                        "in": "path",
-                        "description": "did to fetch",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "properties": {
-                                    "domain": {
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object",
-                                "example": {
-                                    "domain": "google.com"
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Domains"
-                ],
-                "description": "deletes a single domain based on the did supplied",
-                "operationId": "f87f9facd20dec425036643c9cb07669",
-                "parameters": [
-                    {
-                        "name": "did",
-                        "in": "path",
-                        "description": "did of domain to delete",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "domain deleted"
-                    },
-                    "default": {
-                        "description": "unexpected error"
-                    }
-                }
             }
         },
         "/api/domains/check": {
@@ -807,23 +695,64 @@
                 ]
             }
         },
-        "/api/languages": {
-            "get": {
+        "/api/domains/get_did": {
+            "post": {
                 "tags": [
-                    "Languages"
+                    "Domains"
                 ],
-                "summary": "Get languages list",
-                "operationId": "13f72dfeebea6adfa84684cf31bade15",
+                "summary": "Adds a new domains from array",
+                "operationId": "5b087d2e43ab11897627d40db5e23014",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "domain": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "example": [
+                                            "google.com",
+                                            "yandex.ru",
+                                            "site1.net"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "language response",
+                        "description": "domain response",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/Language"
+                                        "$ref": "#/components/schemas/Domain"
                                     }
+                                },
+                                "example": {
+                                    "success": true,
+                                    "data": [
+                                        {
+                                            "domain": "ya.ru",
+                                            "did": 19
+                                        },
+                                        {
+                                            "domain": "11111",
+                                            "did": false
+                                        }
+                                    ],
+                                    "message": "Request processed"
                                 }
                             }
                         }
@@ -834,35 +763,35 @@
                         "sanctum": []
                     }
                 ]
-            },
+            }
+        },
+        "/api/domains/get_domain": {
             "post": {
                 "tags": [
-                    "Languages"
+                    "Domains"
                 ],
-                "summary": "Adds a new language",
-                "operationId": "f7b540d1a2e4ba9719a40dc1d8624fa0",
+                "summary": "Get domain domains by did array",
+                "operationId": "2e91d5de6144ac3c5b9e1c1a47859232",
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "name"
-                                ],
                                 "properties": {
-                                    "lang": {
-                                        "type": "string"
-                                    },
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "aparser": {
-                                        "type": "string"
-                                    },
-                                    "three": {
-                                        "type": "string"
-                                    },
-                                    "rucaptcha": {
-                                        "type": "integer"
+                                    "did": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "example": [
+                                            11,
+                                            12,
+                                            13
+                                        ]
                                     }
                                 },
                                 "type": "object"
@@ -870,6 +799,49 @@
                         }
                     }
                 },
+                "responses": {
+                    "200": {
+                        "description": "domain response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Domain"
+                                    }
+                                },
+                                "example": {
+                                    "success": true,
+                                    "data": [
+                                        {
+                                            "domain": "ya.ru",
+                                            "did": 19
+                                        },
+                                        {
+                                            "domain": false,
+                                            "did": 12
+                                        }
+                                    ],
+                                    "message": "Request processed"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/languages": {
+            "get": {
+                "tags": [
+                    "Languages"
+                ],
+                "summary": "Get languages list",
+                "operationId": "13f72dfeebea6adfa84684cf31bade15",
                 "responses": {
                     "200": {
                         "description": "language response",
@@ -927,135 +899,15 @@
                         "sanctum": []
                     }
                 ]
-            },
-            "put": {
-                "tags": [
-                    "Languages"
-                ],
-                "summary": "Updates a language",
-                "operationId": "e788fc4177bb0020385911bd96e53bfc",
-                "parameters": [
-                    {
-                        "name": "lang",
-                        "in": "path",
-                        "description": "did to fetch",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "language": {
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object",
-                                "example": {
-                                    "language": "google.com"
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Languages"
-                ],
-                "description": "deletes a single language based on the lamg supplied",
-                "operationId": "82a8402debaa939076228b7bab594d8c",
-                "parameters": [
-                    {
-                        "name": "lang",
-                        "in": "path",
-                        "description": "lang of language to delete",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "language deleted"
-                    },
-                    "default": {
-                        "description": "unexpected error"
-                    }
-                }
             }
         },
         "/api/lrs": {
             "get": {
                 "tags": [
-                    "Locations"
+                    "Lr"
                 ],
                 "summary": "Get lrs list",
                 "operationId": "9bc225375276dc1ad2771727be9ce9a8",
-                "responses": {
-                    "200": {
-                        "description": "lr response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Location"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Locations"
-                ],
-                "summary": "Adds a new lr",
-                "operationId": "30e213df2caf9a36db97c0de0f20dbcb",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "name"
-                                ],
-                                "properties": {
-                                    "lr": {
-                                        "type": "integer"
-                                    },
-                                    "parent_id": {
-                                        "type": "integer"
-                                    },
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "sort": {
-                                        "type": "integer"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
                         "description": "lr response",
@@ -1081,7 +933,7 @@
         "/api/lrs/{lr}": {
             "get": {
                 "tags": [
-                    "Locations"
+                    "Lr"
                 ],
                 "summary": "Get location by lr",
                 "operationId": "71be1c166f1fca4cbaee03d9a44df6cc",
@@ -1113,91 +965,53 @@
                         "sanctum": []
                     }
                 ]
-            },
-            "put": {
+            }
+        },
+        "/api/lrs/search/{search}": {
+            "get": {
                 "tags": [
-                    "Locations"
+                    "Lr"
                 ],
-                "summary": "Updates a lr",
-                "operationId": "9328e8ee9b0437a8276a5870fb5b8cc2",
+                "summary": "Get lr search",
+                "operationId": "b7e93af3595058a287e9586af188ce3a",
                 "parameters": [
                     {
-                        "name": "lr",
+                        "name": "search",
                         "in": "path",
-                        "description": "lr to fetch",
+                        "description": "search",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string",
+                            "example": "Мос"
                         }
                     }
                 ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "name"
-                                ],
-                                "properties": {
-                                    "lr": {
-                                        "type": "integer"
-                                    },
-                                    "parent_id": {
-                                        "type": "integer"
-                                    },
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "sort": {
-                                        "type": "integer"
-                                    }
-                                },
-                                "type": "object"
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Location"
+                                }
                             }
                         }
                     }
                 },
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Locations"
-                ],
-                "description": "deletes a single lr based on the lamg supplied",
-                "operationId": "4e4ff3e71fb47cffd42d91dbc4ea2c6d",
-                "parameters": [
+                "security": [
                     {
-                        "name": "lr",
-                        "in": "path",
-                        "description": "lang of lr to delete",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                        "sanctum": []
                     }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "lr deleted"
-                    },
-                    "default": {
-                        "description": "unexpected error"
-                    }
-                }
+                ]
             }
         },
-        "/api/settings": {
+        "/api/user-settings": {
             "get": {
                 "tags": [
-                    "Settings"
+                    "User Settings"
                 ],
                 "summary": "Get settings list",
-                "operationId": "1cd753a4ee8b65cedc06119ddad10c7f",
+                "operationId": "0634d85cbd3e147f837d901bdd7e826b",
                 "responses": {
                     "200": {
                         "description": "Settings response",
@@ -1221,10 +1035,10 @@
             },
             "post": {
                 "tags": [
-                    "Settings"
+                    "User Settings"
                 ],
                 "summary": "Adds a new Settings",
-                "operationId": "0f41def79111195c93d4b0b7d1c1a077",
+                "operationId": "4aae302971184b42269a2ec481d224f9",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -1270,13 +1084,13 @@
                 ]
             }
         },
-        "/api/settings/{sid}": {
+        "/api/user-settings/{sid}": {
             "get": {
                 "tags": [
-                    "Settings"
+                    "User Settings"
                 ],
                 "summary": "Get Settings by {sid}",
-                "operationId": "e54765bd534221366a534ba3812642ba",
+                "operationId": "08332fda91f6eef16c0f47c305d650b7",
                 "parameters": [
                     {
                         "name": "sid",
@@ -1309,10 +1123,10 @@
             },
             "delete": {
                 "tags": [
-                    "Settings"
+                    "User Settings"
                 ],
                 "description": "deletes a single setting by sid",
-                "operationId": "acbc7a52e7bca7d5a9f8a77cbdecaed7",
+                "operationId": "14fdfd5e05b6f94fd4f8b25c14450a3c",
                 "parameters": [
                     {
                         "name": "sid",
@@ -1334,13 +1148,13 @@
                 }
             }
         },
-        "/api/settings/search/{uid}": {
+        "/api/user-settings/search/{uid}": {
             "get": {
                 "tags": [
-                    "Settings"
+                    "User Settings"
                 ],
                 "summary": "Get Settings for user {uid} and optional {type}",
-                "operationId": "2cf1b7df2edc02fe643478914d20635d",
+                "operationId": "cd63685b130e7966a5be40e467f145a3",
                 "parameters": [
                     {
                         "name": "uid",
@@ -1382,13 +1196,13 @@
                 ]
             }
         },
-        "/api/settings/update/{uid}": {
+        "/api/user-settings/update/{uid}": {
             "post": {
                 "tags": [
-                    "Settings"
+                    "User Settings"
                 ],
                 "summary": "Updates settings for uid and type",
-                "operationId": "732934a6f85b98d6245e5abc7d9e1fb1",
+                "operationId": "034d1599c8900c3fec5616f0fab6092a",
                 "parameters": [
                     {
                         "name": "uid",

@@ -12,9 +12,9 @@ class SettingsController extends BaseController
 {
     /**
     * @OA\GET(
-    *     path="/api/settings",
+    *     path="/api/user-settings",
     *     summary="Get settings list",
-    *     tags={"Settings"},     
+    *     tags={"User Settings"},     
     *     @OA\Response(
     *         response=200,
     *         description="OK",
@@ -36,9 +36,9 @@ class SettingsController extends BaseController
     
     /**
     * @OA\Post(
-    *     path="/api/settings",
+    *     path="/api/user-settings",
     *     summary="Adds a new Settings",
-    *     tags={"Settings"},         
+    *     tags={"User Settings"},         
     *     @OA\RequestBody(
     *         @OA\MediaType(
     *             mediaType="application/json",
@@ -82,9 +82,9 @@ class SettingsController extends BaseController
 
     /**
     * @OA\GET(
-    *     path="/api/settings/{sid}",
+    *     path="/api/user-settings/{sid}",
     *     summary="Get Settings by {sid}",
-    *     tags={"Settings"},         
+    *     tags={"User Settings"},         
     *     @OA\Parameter(
     *         description="cid",
     *         in="path",
@@ -116,9 +116,9 @@ class SettingsController extends BaseController
     
     /**
     * @OA\GET(
-    *     path="/api/settings/search/{uid}",
+    *     path="/api/user-settings/search/{uid}",
     *     summary="Get Settings for user {uid} and optional {type}",
-    *     tags={"Settings"},         
+    *     tags={"User Settings"},         
     *     @OA\Parameter(
     *         description="uid",
     *         in="path",
@@ -165,9 +165,9 @@ class SettingsController extends BaseController
     
         /**
          * @OA\Post(
-         *     path="/api/settings/update/{uid}",
+         *     path="/api/user-settings/update/{uid}",
          *     summary="Updates settings for uid and type",
-         *     tags={"Settings"},            
+         *     tags={"User Settings"},            
          *     @OA\Parameter(
          *         description="uid",
          *         in="path",
@@ -230,9 +230,9 @@ class SettingsController extends BaseController
 
     /**
      * @OA\Delete(
-     *     path="/api/settings/{sid}",
+     *     path="/api/user-settings/{sid}",
      *     description="deletes a single setting by sid",
-     *     tags={"Settings"},          
+     *     tags={"User Settings"},          
      *     @OA\Parameter(
      *         description="sid to delete",
      *         in="path",
