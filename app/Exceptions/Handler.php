@@ -5,6 +5,8 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 use Illuminate\Auth\AuthenticationException;
+use Laravel\Sanctum\Exceptions\MissingAbilityException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -47,6 +49,7 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+        
         $this->renderable(function (AuthenticationException $e, $request) {
             if ($request->is('api/*')) {
                 return response()->json([
@@ -56,5 +59,15 @@ class Handler extends ExceptionHandler
                 ], 401);
             }
            });
+           
+       $this->renderable(function (AccessDeniedHttpException $e, $request) {
+           if ($request->is('api/*')) {
+               return response()->json([
+                 'status_code' => 401,
+                 'success' => false,
+                 'message' => 'Invalid ability provided.'
+               ], 401);
+           }
+          });   
     }
 }

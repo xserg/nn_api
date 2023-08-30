@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use Validator;
-use App\Models\Base_lr as Lr;
+use App\Models\Lr as Lr;
 use App\Http\Resources\Base_lr as LrResource;
    
 class LrController extends BaseController

@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="{{ l5_swagger_asset($documentation, 'swagger-ui.css') }}">
     <link rel="icon" type="image/png" href="{{ l5_swagger_asset($documentation, 'favicon-32x32.png') }}" sizes="32x32"/>
     <link rel="icon" type="image/png" href="{{ l5_swagger_asset($documentation, 'favicon-16x16.png') }}" sizes="16x16"/>
+    
+    <link href="https://noobov.net/assets/css/min.adminlte.css?59195242" rel="stylesheet" type="text/css">
     <style>
     html
     {
@@ -28,6 +30,19 @@
 </head>
 
 <body>
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+  	<ul class="navbar-nav">
+  		<li class="nav-item">
+  			<a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fa fa-bars"></i></a>
+  		</li>
+  		<li class="nav-item"><a class="nav-link" href="/">Главная</a></li>
+  		<li class="nav-item"><a class="nav-link" href="/tool/">SEO инструменты</a></li>
+  		<li class="nav-item active"><a class="nav-link" href="/control/">Site control</a></li>
+  				
+  			</ul>	
+  	
+  </nav>
+    
 <div id="swagger-ui"></div>
 
 <script src="{{ l5_swagger_asset($documentation, 'swagger-ui-bundle.js') }}"></script>

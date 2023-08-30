@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use Validator;
-use App\Models\Base_domains as Domain;
+use App\Models\Domains as Domain;
 use App\Http\Resources\Base_domains as DomainResource;
 
 /**
@@ -17,30 +17,6 @@ use App\Http\Resources\Base_domains as DomainResource;
 class DomainController extends BaseController
 {
     private $error;
-
-    /**
-    * @OA\GET(
-    *     path="/api/domains",
-    *     summary="Get domains list",
-    *     tags={"Domains"},    
-    *     @OA\Response(
-    *         response=200,
-    *         description="OK",
-    *         response=200,
-    *         description="domain response",
-    *         @OA\JsonContent(
-    *             type="array",
-    *             @OA\Items(ref="#/components/schemas/Domain")
-    *         ),
-    *     ),
-    *     security={ * {"sanctum": {}}, * },
-    * )
-    */    
-    public function index()
-    {
-        $domain = Domain::orderBy('did')->get();
-        return $this->sendResponse(DomainResource::collection($domain), 'Domains fetched.');
-    }
     
     /**
     * @OA\Post(
@@ -51,6 +27,7 @@ class DomainController extends BaseController
     *         @OA\MediaType(
     *             mediaType="application/json",
     *             @OA\Schema(
+    *             @OA\Property(property="check_exist", type="bool", example=false),    
     *             @OA\Property(
     *               property="domains", type="array",
     *               @OA\Items( @OA\Property( type="string")), 
@@ -66,8 +43,6 @@ class DomainController extends BaseController
     *     @OA\Response(
     *         response=200,
     *         description="OK",
-    *         response=200,
-    *         description="domain response",
     *         @OA\JsonContent(
     *             type="array",
     *             @OA\Items(ref="#/components/schemas/Domain"),
@@ -78,21 +53,23 @@ class DomainController extends BaseController
     *    {
     *      "domain": "google.com",
     *      "did": 13,
-    *      "error": "Domain already exist."
+    *      "status": 200,
     *    },
-    *    {
-    *      "domain": "yandex.ru",
-    *      "did": 18,
-    *      "error": "Domain already exist."
-    *    },
-    *    {
-    *      "domain": "site1.net",
-    *      "did": 37,
-    *      "error": "Domain already exist."
-    *    }
+    *    "status_arr": {
+    *    "200": "Dpmain created",
+    *    "501": "Domain not registered error",
+    *    "502": "Domain too short error",
+    *    "503": "Domain too long error",
+    *    "504": "Domain should start from letter",
+    *    "505": "Wrong domain error",
+    *    "506": "Domain Incorect symbols error",
+    *    "508": "Domain already exist", 
+    *    "509": "Domain control already exist",                                 
+    *     },
     *  },
     *  "message": "Request processed"
     * }),
+    *  
     *     ),
     *     security={ * {"sanctum": {}}, * },
     * )
@@ -106,15 +83,16 @@ class DomainController extends BaseController
       if($validator->fails()){
           return $this->sendError($validator->errors());       
       }
+      $check_exist = $input['check_exist'] ?? false;
       $domain = new Domain;              
       $i = 0;
       foreach ($input['domains'] as $domain_name) {
-          $domain->store($domain_name, false);
+          $status = $domain->store($domain_name, $check_exist);
           //print_r(new DomainResource($domain));
           //if($domain->store($input['domain'], false)) {
           $did_arr[$i]['domain'] = $domain_name;
           $did_arr[$i]['did'] = $domain->did;
-          $did_arr[$i]['error'] = $domain->error;
+          $did_arr[$i]['status'] = $status;
           $i++;
       } 
       
@@ -166,7 +144,7 @@ class DomainController extends BaseController
     *             @OA\Schema(
     *             @OA\Property(property="check_exist", type="bool", example=false),
     *             @OA\Property(
-    *               property="domain", type="array",
+    *               property="domains", type="array",
     *               @OA\Items( @OA\Property( type="string")), 
     *               example={
     *                      "google.com",
@@ -215,18 +193,18 @@ class DomainController extends BaseController
     {
       $input = $request->all();
       $validator = Validator::make($input, [
-          'domain' => 'required',
+          'domains' => 'required',
       ]);
       if($validator->fails()){
           return $this->sendError($validator->errors());       
       }
       $check_exist = $input['check_exist'] ?? false;
-      if (is_array($input['domain'])) {
-          $domain_arr = $input['domain'];
-      } elseif (preg_match('/,/', $input['domain'])) {
-          $domain_arr = explode(',', $input['domain']);
+      if (is_array($input['domains'])) {
+          $domain_arr = $input['domains'];
+      } elseif (preg_match('/,/', $input['domains'])) {
+          $domain_arr = explode(',', $input['domains']);
       } else {
-          $domain_arr = [$input['domain']];
+          $domain_arr = [$input['domains']];
       }
       
       $domain = new Domain;              
@@ -252,7 +230,7 @@ class DomainController extends BaseController
     *             mediaType="application/json",
     *             @OA\Schema(
     *             @OA\Property(
-    *               property="domain", type="array",
+    *               property="domains", type="array",
     *               @OA\Items( @OA\Property( type="string")), 
     *               example={
     *                      "google.com",
@@ -295,12 +273,12 @@ class DomainController extends BaseController
     {
       $input = $request->all();
       $validator = Validator::make($input, [
-          'domain' => 'required',
+          'domains' => 'required',
       ]);
       if($validator->fails()){
           return $this->sendError($validator->errors());       
       }
-      $domain_arr = array_map('trim', $input['domain']);   
+      $domain_arr = array_map('trim', $input['domains']);   
       foreach ($domain_arr as $domain_name) {
           $domain = Domain::where('domain', $domain_name)->first();
           $did_arr[] = ['domain' => $domain_name, 'did' =>  $domain->did ?? false];

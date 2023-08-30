@@ -12,9 +12,19 @@ class SettingsController extends BaseController
 {
     /**
     * @OA\GET(
-    *     path="/api/user-settings",
-    *     summary="Get settings list",
-    *     tags={"User Settings"},     
+    *     path="/api/user-settings/{uid}",
+    *     summary="Get settings list for uid",
+    *     tags={"User Settings"},
+    *     @OA\Parameter(
+    *         description="uid",
+    *         in="path",
+    *         name="uid",
+    *         required=true,
+    *         @OA\Schema(
+    *             type="integer",
+    *             example=3,
+    *         ),
+    *     ),         
     *     @OA\Response(
     *         response=200,
     *         description="OK",
@@ -28,15 +38,15 @@ class SettingsController extends BaseController
     *     security={ * {"sanctum": {}}, * },
     * )
     */    
-    public function index()
+    public function index($uid)
     {
-        $setting = Settings::get();
+        $setting = Settings::where('uid', $uid)->get();
         return $this->sendResponse(SettingsResource::collection($setting), 'Settings fetched.');
     }
     
     /**
     * @OA\Post(
-    *     path="/api/user-settings",
+    *     path="/api/user-settings/{uid}",
     *     summary="Adds a new Settings",
     *     tags={"User Settings"},         
     *     @OA\RequestBody(
@@ -82,9 +92,19 @@ class SettingsController extends BaseController
 
     /**
     * @OA\GET(
-    *     path="/api/user-settings/{sid}",
+    *     path="/api/user-settings/{uid}/{sid}",
     *     summary="Get Settings by {sid}",
-    *     tags={"User Settings"},         
+    *     tags={"User Settings"},
+    *     @OA\Parameter(
+    *         description="uid",
+    *         in="path",
+    *         name="uid",
+    *         required=true,
+    *         @OA\Schema(
+    *             type="integer",
+    *             example=3,
+    *         ),
+    *     ),             
     *     @OA\Parameter(
     *         description="cid",
     *         in="path",
@@ -105,7 +125,7 @@ class SettingsController extends BaseController
     *     security={ * {"sanctum": {}}, * },
     * )
     */  
-    public function show($sid)
+    public function show($uid, $sid)
     {
         $setting = Settings::find($sid);
         if (is_null($setting)) {
@@ -116,7 +136,7 @@ class SettingsController extends BaseController
     
     /**
     * @OA\GET(
-    *     path="/api/user-settings/search/{uid}",
+    *     path="/api/user-settings/{uid}/search",
     *     summary="Get Settings for user {uid} and optional {type}",
     *     tags={"User Settings"},         
     *     @OA\Parameter(
@@ -165,7 +185,7 @@ class SettingsController extends BaseController
     
         /**
          * @OA\Post(
-         *     path="/api/user-settings/update/{uid}",
+         *     path="/api/user-settings/{uid}/update",
          *     summary="Updates settings for uid and type",
          *     tags={"User Settings"},            
          *     @OA\Parameter(
@@ -230,9 +250,18 @@ class SettingsController extends BaseController
 
     /**
      * @OA\Delete(
-     *     path="/api/user-settings/{sid}",
+     *     path="/api/user-settings/{uid}/{sid}",
      *     description="deletes a single setting by sid",
-     *     tags={"User Settings"},          
+     *     tags={"User Settings"}, 
+     *     @OA\Parameter(
+     *         description="uid",
+     *         in="path",
+     *         name="uid",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),              
      *     @OA\Parameter(
      *         description="sid to delete",
      *         in="path",
@@ -253,8 +282,9 @@ class SettingsController extends BaseController
      *     )
      * )
      */      
-    public function destroy(Settings $setting)
+    public function destroy($uid, $sid)
     {
+        $setting = Settings::find($sid); 
         $setting->delete();
         return $this->sendResponse([], 'Settings deleted.');
     }

@@ -109,52 +109,32 @@
                 ]
             }
         },
-        "/api/controls": {
-            "get": {
-                "tags": [
-                    "Controls"
-                ],
-                "summary": "Get controls list",
-                "operationId": "ad1feca766528ce26e0c3bfa4c7dfedd",
-                "responses": {
-                    "200": {
-                        "description": "control response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Control_domain"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            },
+        "/api/control/{uid}/add": {
             "post": {
                 "tags": [
-                    "Controls"
+                    "Control"
                 ],
                 "summary": "Adds a new control",
-                "operationId": "e8253a56234d58c5ecf3ff5d8d1e12b5",
+                "operationId": "9720ded00bf23eaa0cc8f26580e7e082",
+                "parameters": [
+                    {
+                        "name": "uid",
+                        "in": "path",
+                        "description": "Add control for uid",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 3
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "uid"
-                                ],
                                 "properties": {
-                                    "uid": {
-                                        "type": "integer"
-                                    },
-                                    "domain": {
+                                    "domains": {
                                         "type": "array",
                                         "items": {
                                             "properties": {
@@ -198,13 +178,13 @@
                 ]
             }
         },
-        "/api/controls/{cid}": {
+        "/api/control/{cid}": {
             "get": {
                 "tags": [
-                    "Controls"
+                    "Control"
                 ],
                 "summary": "Get control by cid",
-                "operationId": "9cc86012cef1fab713a80133f04588aa",
+                "operationId": "b7ffcf595c9add4245ac0ec6f332ab51",
                 "parameters": [
                     {
                         "name": "cid",
@@ -238,10 +218,10 @@
             },
             "put": {
                 "tags": [
-                    "Controls"
+                    "Control"
                 ],
                 "summary": "Updates a control",
-                "operationId": "4e14372159cbbf066be2d9230aa04bb8",
+                "operationId": "c00d506424568eca975c5d425d3729b7",
                 "parameters": [
                     {
                         "name": "cid",
@@ -276,90 +256,15 @@
                         "description": "OK"
                     }
                 }
-            },
-            "delete": {
-                "tags": [
-                    "Controls"
-                ],
-                "description": "deletes a single control based on the lamg supplied",
-                "operationId": "079b9dbf508ffac811f7f5022c75225e",
-                "parameters": [
-                    {
-                        "name": "cid",
-                        "in": "path",
-                        "description": "lang of control to delete",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "control deleted"
-                    },
-                    "default": {
-                        "description": "unexpected error"
-                    }
-                }
             }
         },
-        "/api/controls/set_lr/{cid}/{lr}": {
+        "/api/control/{uid}/{cid}": {
             "get": {
                 "tags": [
-                    "Controls"
-                ],
-                "summary": "Set control lr by cid",
-                "operationId": "d1c2ccadf468bbd903c144cde477128a",
-                "parameters": [
-                    {
-                        "name": "cid",
-                        "in": "path",
-                        "description": "Control to fetch",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        },
-                        "example": 4
-                    },
-                    {
-                        "name": "lr",
-                        "in": "path",
-                        "description": "lr",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "control response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Control_domain"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
-        "/api/controls/did_data/{uid}": {
-            "get": {
-                "tags": [
-                    "Controls"
+                    "Control"
                 ],
                 "summary": "Get control by uid",
-                "operationId": "20a9a2ad006e0c7ef143eeecaee513d3",
+                "operationId": "8ec1f5d3c2082682356edfd3b04f6610",
                 "parameters": [
                     {
                         "name": "uid",
@@ -371,6 +276,17 @@
                             "format": "int64"
                         },
                         "example": 3
+                    },
+                    {
+                        "name": "cid",
+                        "in": "path",
+                        "description": "Control fetch by cid",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 0
                     },
                     {
                         "name": "did",
@@ -417,15 +333,115 @@
                         "sanctum": []
                     }
                 ]
+            },
+            "delete": {
+                "tags": [
+                    "Control"
+                ],
+                "description": "deletes a single control ",
+                "operationId": "4bc11c103dbe9fcb759d00030bcbcfc5",
+                "parameters": [
+                    {
+                        "name": "uid",
+                        "in": "path",
+                        "description": "uid",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 3
+                    },
+                    {
+                        "name": "cid",
+                        "in": "path",
+                        "description": "cid",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 0
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "control deleted"
+                    },
+                    "default": {
+                        "description": "unexpected error"
+                    }
+                }
             }
         },
-        "/api/groups/{uid}": {
+        "/api/control/{uid}/{cid}/set_lr/{lr}": {
             "get": {
                 "tags": [
-                    "Groups"
+                    "Control"
+                ],
+                "summary": "Set control lr by uid, cid",
+                "operationId": "4e6458972547f9ddec10109400b6e1d1",
+                "parameters": [
+                    {
+                        "name": "uid",
+                        "in": "path",
+                        "description": "uid",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 4
+                    },
+                    {
+                        "name": "cid",
+                        "in": "path",
+                        "description": "cid",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 4
+                    },
+                    {
+                        "name": "lr",
+                        "in": "path",
+                        "description": "lr",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "control response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Control_domain"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/control/{uid}/groups/": {
+            "get": {
+                "tags": [
+                    "Control"
                 ],
                 "summary": "Get groups  list",
-                "operationId": "3ecac63997ee7f0ee01404e9cbb4891e",
+                "operationId": "cbcca4999a6199863a27d185dce705f7",
                 "parameters": [
                     {
                         "name": "uid",
@@ -470,35 +486,6 @@
                 ]
             }
         },
-        "/api/domains": {
-            "get": {
-                "tags": [
-                    "Domains"
-                ],
-                "summary": "Get domains list",
-                "operationId": "0fb674960fb8707c7469aa43b86f1eec",
-                "responses": {
-                    "200": {
-                        "description": "domain response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Domain"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
         "/api/domains/add": {
             "post": {
                 "tags": [
@@ -511,6 +498,10 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
+                                    "check_exist": {
+                                        "type": "boolean",
+                                        "example": false
+                                    },
                                     "domains": {
                                         "type": "array",
                                         "items": {
@@ -535,7 +526,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "domain response",
+                        "description": "OK",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -546,23 +537,24 @@
                                 },
                                 "example": {
                                     "success": true,
-                                    "data": [
-                                        {
+                                    "data": {
+                                        "0": {
                                             "domain": "google.com",
                                             "did": 13,
-                                            "error": "Domain already exist."
+                                            "status": 200
                                         },
-                                        {
-                                            "domain": "yandex.ru",
-                                            "did": 18,
-                                            "error": "Domain already exist."
-                                        },
-                                        {
-                                            "domain": "site1.net",
-                                            "did": 37,
-                                            "error": "Domain already exist."
+                                        "status_arr": {
+                                            "200": "Dpmain created",
+                                            "501": "Domain not registered error",
+                                            "502": "Domain too short error",
+                                            "503": "Domain too long error",
+                                            "504": "Domain should start from letter",
+                                            "505": "Wrong domain error",
+                                            "506": "Domain Incorect symbols error",
+                                            "508": "Domain already exist",
+                                            "509": "Domain control already exist"
                                         }
-                                    ],
+                                    },
                                     "message": "Request processed"
                                 }
                             }
@@ -630,7 +622,7 @@
                                         "type": "boolean",
                                         "example": false
                                     },
-                                    "domain": {
+                                    "domains": {
                                         "type": "array",
                                         "items": {
                                             "properties": {
@@ -707,7 +699,7 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "domain": {
+                                    "domains": {
                                         "type": "array",
                                         "items": {
                                             "properties": {
@@ -1005,13 +997,25 @@
                 ]
             }
         },
-        "/api/user-settings": {
+        "/api/user-settings/{uid}": {
             "get": {
                 "tags": [
                     "User Settings"
                 ],
-                "summary": "Get settings list",
-                "operationId": "0634d85cbd3e147f837d901bdd7e826b",
+                "summary": "Get settings list for uid",
+                "operationId": "c649b5e4daf1f565d281532a23cc60b0",
+                "parameters": [
+                    {
+                        "name": "uid",
+                        "in": "path",
+                        "description": "uid",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 3
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Settings response",
@@ -1038,7 +1042,7 @@
                     "User Settings"
                 ],
                 "summary": "Adds a new Settings",
-                "operationId": "4aae302971184b42269a2ec481d224f9",
+                "operationId": "659174abf6e543b55dc6594832568733",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -1084,14 +1088,24 @@
                 ]
             }
         },
-        "/api/user-settings/{sid}": {
+        "/api/user-settings/{uid}/{sid}": {
             "get": {
                 "tags": [
                     "User Settings"
                 ],
                 "summary": "Get Settings by {sid}",
-                "operationId": "08332fda91f6eef16c0f47c305d650b7",
+                "operationId": "455dfc9e523170d0df5c706ba6053ddc",
                 "parameters": [
+                    {
+                        "name": "uid",
+                        "in": "path",
+                        "description": "uid",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 3
+                        }
+                    },
                     {
                         "name": "sid",
                         "in": "path",
@@ -1126,8 +1140,17 @@
                     "User Settings"
                 ],
                 "description": "deletes a single setting by sid",
-                "operationId": "14fdfd5e05b6f94fd4f8b25c14450a3c",
+                "operationId": "eb7830af24317644af7ac58c400f99d4",
                 "parameters": [
+                    {
+                        "name": "uid",
+                        "in": "path",
+                        "description": "uid",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
                     {
                         "name": "sid",
                         "in": "path",
@@ -1148,13 +1171,13 @@
                 }
             }
         },
-        "/api/user-settings/search/{uid}": {
+        "/api/user-settings/{uid}/search": {
             "get": {
                 "tags": [
                     "User Settings"
                 ],
                 "summary": "Get Settings for user {uid} and optional {type}",
-                "operationId": "cd63685b130e7966a5be40e467f145a3",
+                "operationId": "5de9041501e7ea8fd374e1972130e21e",
                 "parameters": [
                     {
                         "name": "uid",
@@ -1196,13 +1219,13 @@
                 ]
             }
         },
-        "/api/user-settings/update/{uid}": {
+        "/api/user-settings/{uid}/update": {
             "post": {
                 "tags": [
                     "User Settings"
                 ],
                 "summary": "Updates settings for uid and type",
-                "operationId": "034d1599c8900c3fec5616f0fab6092a",
+                "operationId": "5c834cc6a080e80b8ad51a8b367c49e5",
                 "parameters": [
                     {
                         "name": "uid",
@@ -1277,92 +1300,6 @@
                     }
                 },
                 "type": "object"
-            },
-            "Domain": {
-                "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "#/components/schemas/Domain"
-                    },
-                    {
-                        "required": [
-                            "domain"
-                        ],
-                        "properties": {
-                            "did": {
-                                "type": "integer",
-                                "format": "int64"
-                            },
-                            "domain": {
-                                "type": "string"
-                            }
-                        },
-                        "type": "object",
-                        "example": {
-                            "did": 10,
-                            "domain": "google.com"
-                        }
-                    }
-                ]
-            },
-            "Language": {
-                "type": "object",
-                "allOf": [
-                    {
-                        "required": [
-                            "name"
-                        ],
-                        "properties": {
-                            "lang": {
-                                "type": "string"
-                            },
-                            "name": {
-                                "type": "string"
-                            },
-                            "aparser": {
-                                "type": "string"
-                            },
-                            "three": {
-                                "type": "string"
-                            },
-                            "rucaptcha": {
-                                "type": "integer"
-                            }
-                        },
-                        "type": "object"
-                    }
-                ]
-            },
-            "Location": {
-                "type": "object",
-                "allOf": [
-                    {
-                        "required": [
-                            "name"
-                        ],
-                        "properties": {
-                            "lr": {
-                                "type": "integer"
-                            },
-                            "name": {
-                                "type": "string"
-                            },
-                            "parent_id": {
-                                "type": "string"
-                            },
-                            "parent_string": {
-                                "type": "string"
-                            },
-                            "sort": {
-                                "type": "integer"
-                            },
-                            "pop": {
-                                "type": "integer"
-                            }
-                        },
-                        "type": "object"
-                    }
-                ]
             },
             "Control_domain": {
                 "type": "object",
@@ -1496,6 +1433,92 @@
                                         "f_check_old": 1
                                     }
                                 }
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "Domain": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Domain"
+                    },
+                    {
+                        "required": [
+                            "domain"
+                        ],
+                        "properties": {
+                            "did": {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            "domain": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object",
+                        "example": {
+                            "did": 10,
+                            "domain": "google.com"
+                        }
+                    }
+                ]
+            },
+            "Language": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "required": [
+                            "name"
+                        ],
+                        "properties": {
+                            "lang": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "aparser": {
+                                "type": "string"
+                            },
+                            "three": {
+                                "type": "string"
+                            },
+                            "rucaptcha": {
+                                "type": "integer"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "Location": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "required": [
+                            "name"
+                        ],
+                        "properties": {
+                            "lr": {
+                                "type": "integer"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "parent_id": {
+                                "type": "string"
+                            },
+                            "parent_string": {
+                                "type": "string"
+                            },
+                            "sort": {
+                                "type": "integer"
+                            },
+                            "pop": {
+                                "type": "integer"
                             }
                         },
                         "type": "object"

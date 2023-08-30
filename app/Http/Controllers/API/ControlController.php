@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use Validator;
 use App\Models\Control_domains as Control;
-use App\Models\Base_domains as Domain;
+use App\Models\Domains as Domain;
 use App\Http\Resources\Control_domains as ControlResource;
 use App\Http\Resources\Base_domains as DomainResource;
 use App\Models\Control_groups as Group;
@@ -14,43 +14,30 @@ use App\Http\Resources\Control_groups as GroupResource;
    
 class ControlController extends BaseController
 {
-  /**
-  * @OA\GET(
-  *     path="/api/controls",
-  *     summary="Get controls list",
-  *     tags={"Controls"},   
-  *     @OA\Response(
-  *         response=200,
-  *         description="OK",
-  *         response=200,
-  *         description="control response",
-  *         @OA\JsonContent(
-  *             type="array",
-  *             @OA\Items(ref="#/components/schemas/Control_domain")
-  *         ),
-  *     ),
-  *     security={ * {"sanctum": {}}, * },
-  * )
-  */    
-    public function index()
-    {
-        $control = Control::orderBy('cid')->get();
-        return $this->sendResponse(ControlResource::collection($control), 'control fetched.');
-    }
     
     /**
     * @OA\Post(
-    *     path="/api/controls",
+    *     path="/api/control/{uid}/add",
     *     summary="Adds a new control",
-    *     tags={"Controls"}, 
+    *     tags={"Control"},
+    *     @OA\Parameter(
+    *         description="Add control for uid",
+    *         in="path",
+    *         name="uid",
+    *         required=true,
+    *         @OA\Schema(
+    *             type="integer",
+    *             format="int64",
+    *         ),
+    *         example=3    
+    *     ),     
     *     @OA\RequestBody(
     *         @OA\MediaType(
     *             mediaType="application/json",
     *             @OA\Schema(
-    *             required={"uid"},
-    *             @OA\Property(property="uid", type="integer"),
+    *  
     *             @OA\Property(
-    *               property="domain", type="array",
+    *               property="domains", type="array",
     *               @OA\Items( @OA\Property( type="string")), 
     *               example={
     *                      "google.com",
@@ -74,23 +61,24 @@ class ControlController extends BaseController
     *     security={ * {"sanctum": {}}, * },
     * )
     */        
-    public function store(Request $request)
+    public function store(Request $request, $uid)
     {
         $input = $request->all();
+        $input['uid'] = $uid;
         $validator = Validator::make($input, [
             'uid' => 'required',
-            'domain' => 'required',
+            'domains' => 'required',
         ]);
         if($validator->fails()){
             return $this->sendError($validator->errors());       
         }
         
-        if (is_array($input['domain'])) {
-            $domain_arr = $input['domain'];
-        } elseif (preg_match('/,/', $input['domain'])) {
-            $domain_arr = explode(',', $input['domain']);
+        if (is_array($input['domains'])) {
+            $domain_arr = $input['domains'];
+        } elseif (preg_match('/,/', $input['domains'])) {
+            $domain_arr = explode(',', $input['domains']);
         } else {
-            $domain_arr = [$input['domain']];
+            $domain_arr = [$input['domains']];
         }
         
         $did_arr = [];
@@ -98,17 +86,17 @@ class ControlController extends BaseController
 
         $i = 0;
         foreach ($domain_arr as $domain_name) {
-            $domain->store($domain_name, false);
+            $status = $domain->store($domain_name, false);
             //print_r(new DomainResource($domain));
             //if($domain->store($input['domain'], false)) {
             $did_arr[$i]['domain'] = $domain_name;
             $did_arr[$i]['did'] = $domain->did;
-            $did_arr[$i]['error'] = $domain->error;
+            $did_arr[$i]['status'] = $status;
             
             //}
             if ($domain->did) {
               if (Control::where('uid', $input['uid'])->where('did', $domain->did)->first()) {
-                  $did_arr[$i]['error'] .= ' Control domain exist for this user';
+                  $did_arr[$i]['status'] = 509; //' Control domain exist for this user';
               } else {
                   Control::create([
                     'uid' => $input['uid'], 
@@ -133,9 +121,9 @@ class ControlController extends BaseController
     
     /**
     * @OA\GET(
-    *     path="/api/controls/{cid}",
+    *     path="/api/control/{cid}",
     *     summary="Get control by cid",
-    *     tags={"Controls"},     
+    *     tags={"Control"},     
     *     @OA\Parameter(
     *         description="Control to fetch",
     *         in="path",
@@ -178,9 +166,9 @@ class ControlController extends BaseController
 
     /**
      * @OA\Put(
-     *     path="/api/controls/{cid}",
+     *     path="/api/control/{cid}",
      *     summary="Updates a control",
-     *     tags={"Controls"},    
+     *     tags={"Control"},    
      *     @OA\Parameter(
      *         description="cid to update",
      *         in="path",
@@ -227,18 +215,31 @@ class ControlController extends BaseController
     }
     /**
      * @OA\Delete(
-     *     path="/api/controls/{cid}",
-     *     description="deletes a single control based on the lamg supplied",
-     *     tags={"Controls"},      
+     *     path="/api/control/{uid}/{cid}",
+     *     description="deletes a single control ",
+     *     tags={"Control"}, 
      *     @OA\Parameter(
-     *         description="lang of control to delete",
+     *         description="uid",
+     *         in="path",
+     *         name="uid",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int64",
+     *         ),
+     *        example=3    
+     *     ),
+     *     @OA\Parameter(
+     *         description="cid",
      *         in="path",
      *         name="cid",
      *         required=true,
      *         @OA\Schema(
-     *             type="integer"
-     *         )
-     *     ),
+     *             type="integer",
+     *             format="int64",
+     *         ),
+     *        example=0    
+     *     ),           
      *     @OA\Response(
      *         response=204,
      *         description="control deleted"
@@ -250,19 +251,34 @@ class ControlController extends BaseController
      *     )
      * )
      */    
-    public function destroy(Control $control)
+    public function destroy($uid, $cid)
     {
+        $control = Control::where('uid', $uid)->where('cid', $cid)->first();
+        if (is_null($control)) {
+            return $this->sendError('control does not exist.');
+        }
         $control->delete();
         return $this->sendResponse([], 'control deleted.');
     }
     
     /**
     * @OA\GET(
-    *     path="/api/controls/set_lr/{cid}/{lr}",
-    *     summary="Set control lr by cid",
-    *     tags={"Controls"},     
+    *     path="/api/control/{uid}/{cid}/set_lr/{lr}",
+    *     summary="Set control lr by uid, cid",
+    *     tags={"Control"}, 
     *     @OA\Parameter(
-    *         description="Control to fetch",
+    *         description="uid",
+    *         in="path",
+    *         name="uid",
+    *         required=true,
+    *         @OA\Schema(
+    *             type="integer",
+    *             format="int64",
+    *         ),
+    *       example=4    
+    *     ),        
+    *     @OA\Parameter(
+    *         description="cid",
     *         in="path",
     *         name="cid",
     *         required=true,
@@ -270,7 +286,6 @@ class ControlController extends BaseController
     *             type="integer",
     *             format="int64",
     *         ),
-
     *       example=4    
     *     ),
     *     @OA\Parameter(
@@ -282,6 +297,7 @@ class ControlController extends BaseController
     *             type="integer",
     *             format="int64",
     *         ), 
+    *       example=1        
     *     ),       
     *     @OA\Response(
     *         response=200,
@@ -293,7 +309,7 @@ class ControlController extends BaseController
     *     security={ * {"sanctum": {}}, * },
     * )
     */     
-    public function set_cid_lr($cid, $lr)
+    public function set_cid_lr($uid, $cid, $lr)
     {
         $control = Control::find($cid);
         if (is_null($control)) {
@@ -306,9 +322,9 @@ class ControlController extends BaseController
     
     /**
     * @OA\GET(
-    *     path="/api/controls/did_data/{uid}",
+    *     path="/api/control/{uid}/{cid}",
     *     summary="Get control by uid",
-    *     tags={"Controls"},     
+    *     tags={"Control"},     
     *     @OA\Parameter(
     *         description="Control fetch by uid",
     *         in="path",
@@ -318,8 +334,19 @@ class ControlController extends BaseController
     *             type="integer",
     *             format="int64",
     *         ),
-    * example=3    
+    *        example=3    
     *     ),
+    *     @OA\Parameter(
+    *         description="Control fetch by cid",
+    *         in="path",
+    *         name="cid",
+    *         required=true,
+    *         @OA\Schema(
+    *             type="integer",
+    *             format="int64",
+    *         ),
+    *        example=0    
+    *     ),    
     *     @OA\Parameter(
     *         description="did",
     *         in="query",
@@ -357,7 +384,7 @@ class ControlController extends BaseController
     *     security={ * {"sanctum": {}}, * },
     * )
     */  
-    public function get_did_data(Request $request, $uid)
+    public function get_did_data(Request $request, $uid, $cid)
     {
       $input = $request->all();
       $did = null;
@@ -406,7 +433,8 @@ class ControlController extends BaseController
           }
       } 
         
-        $control = Control::select($select)->where('control_domains.uid', $uid)
+        $control = Control::select($select)
+        ->where('control_domains.uid', $uid)
         ->leftJoin('control_groups', 'control_domains.gid', '=', 'control_groups.gid')
         //->orderBy('cid')
         ->when($did, function ($query, $did) {
@@ -414,7 +442,10 @@ class ControlController extends BaseController
                 })
         ->when($did_arr, function ($query, $did_arr) {
                     return $query->wherein('did', $did_arr);
-                })                
+                })
+        ->when($cid, function ($query, $cid) {
+                    return $query->where('cid', $cid);
+                })                                 
         ->get();
         
         return $this->sendResponse(ControlResource::collection($control), 'control fetched.');
@@ -423,9 +454,9 @@ class ControlController extends BaseController
     
     /**
     * @OA\GET(
-    *     path="/api/groups/{uid}",
+    *     path="/api/control/{uid}/groups/",
     *     summary="Get groups  list",
-    *     tags={"Groups"},     
+    *     tags={"Control"},     
     *     @OA\Parameter(
     *         description="Groups fetch by uid",
     *         in="path",

@@ -22,31 +22,29 @@ use App\Http\Controllers\API\SettingsController;
 
 Route::post('login', [AuthController::class, 'signin']);
 //Route::post('register', [AuthController::class, 'signup']);
-     
-Route::middleware('auth:sanctum')->group( function () {
-    Route::resource('domains', DomainController::class);
-    Route::post('/domains/add', [DomainController::class, 'store_arr']);
-    Route::post('/domains/check', [DomainController::class, 'check']);
-    Route::post('/domains/get_did', [DomainController::class, 'get_did']);
-    Route::post('/domains/get_domain', [DomainController::class, 'get_domain']);
-    Route::resource('languages', LanguageController::class);
-    Route::resource('lrs', LrController::class);
-    Route::resource('controls', ControlController::class);
-    Route::resource('user-settings', SettingsController::class);
-    
-    //Route::get('/settings/{uid}/{type?}', [SettingsController::class, 'show']);
-    //Route::get('/settings/search/{uid}', function (Request $request, $uid) {
-      //return [SettingsController::class, 'search'];
-    //});
-    
-    Route::get('/user-settings/search/{uid}', [SettingsController::class, 'search']);
-    Route::post('/user-settings/update/{uid}', [SettingsController::class, 'update2']);
-    Route::get('/controls/set_lr/{cid}/{lr}', [ControlController::class, 'set_cid_lr']);
-    Route::get('/controls/did_data/{uid}', [ControlController::class, 'get_did_data']);
-    Route::get('/groups/{uid}', [ControlController::class, 'get_group_name']);
-    Route::get('/lrs/search/{search}', [LrController::class, 'search']);
-});
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::resource('domains', DomainController::class)->middleware(['auth:sanctum', 'ability:domain-get']);
+Route::post('/domains/add', [DomainController::class, 'store_arr'])->middleware(['auth:sanctum', 'ability:domain-add']);
+Route::post('/domains/check', [DomainController::class, 'check'])->middleware(['auth:sanctum', 'ability:domain-check']);
+Route::post('/domains/get_did', [DomainController::class, 'get_did'])->middleware(['auth:sanctum', 'ability:domain-get-did']);
+Route::post('/domains/get_domain', [DomainController::class, 'get_domain'])->middleware(['auth:sanctum', 'ability:domain-get-domain']);
+Route::resource('languages', LanguageController::class)->middleware(['auth:sanctum', 'ability:languages-get']);
+Route::get('/lrs', [LrController::class, 'index'])->middleware(['auth:sanctum', 'ability:lrs-get']);
+Route::get('/lrs/{lr}', [LrController::class, 'show'])->middleware(['auth:sanctum', 'ability:lrs-get']);
+Route::get('/lrs/search/{search}', [LrController::class, 'search'])->middleware(['auth:sanctum', 'ability:lrs-get']); 
+
+Route::get('/user-settings/search/{uid}', [SettingsController::class, 'search'])->middleware(['auth:sanctum', 'ability:settings-search']);
+Route::get('/user-settings/{uid}', [SettingsController::class, 'search'])->middleware(['auth:sanctum', 'ability:settings-get']);
+Route::post('/user-settings/{uid}', [SettingsController::class, 'store'])->middleware(['auth:sanctum', 'ability:settings-add']);
+Route::get('/user-settings/{uid}/{sid}', [SettingsController::class, 'show'])->middleware(['auth:sanctum', 'ability:settings-get']);
+Route::post('/user-settings/{uid}/update', [SettingsController::class, 'update2'])->middleware(['auth:sanctum', 'ability:settings-update']);
+Route::delete('/user-settings/{uid}/{sid}', [SettingsController::class, 'destroy'])->middleware(['auth:sanctum', 'ability:settings-delete']);
+  
+Route::post('/control/{uid}/add/', [ControlController::class, 'store'])->middleware(['auth:sanctum', 'ability:control-add']);
+Route::get('/control/{uid}/{cid}/set_lr/{lr}', [ControlController::class, 'set_cid_lr'])->middleware(['auth:sanctum', 'ability:control-set-lr']);
+Route::get('/control/did_data/{uid}', [ControlController::class, 'get_did_data'])->middleware(['auth:sanctum', 'ability:control-get-did-data']);
+Route::get('/control/{uid}/{cid}', [ControlController::class, 'get_did_data'])->middleware(['auth:sanctum', 'ability:control-get']);
+Route::get('/control/{cid}', [ControlController::class, 'show'])->middleware(['auth:sanctum', 'ability:control-get']);
+Route::get('/control/{uid}/groups/', [ControlController::class, 'get_group_name'])->middleware(['auth:sanctum', 'ability:control-groups']);
+Route::delete('/control/{uid}/{cid}', [ControlController::class, 'destroy'])->middleware(['auth:sanctum', 'ability:control-delete']);
+
