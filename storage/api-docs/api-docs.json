@@ -660,18 +660,7 @@
                                     "data": [
                                         {
                                             "domain": "google.com",
-                                            "did": 13,
-                                            "error": "Domain already exist."
-                                        },
-                                        {
-                                            "domain": "yandex.ru",
-                                            "did": 18,
-                                            "error": "Domain already exist."
-                                        },
-                                        {
-                                            "domain": "site1.net",
-                                            "did": 37,
-                                            "error": "Domain already exist."
+                                            "status": 200
                                         }
                                     ],
                                     "message": "Request processed"
@@ -774,7 +763,7 @@
                                         "items": {
                                             "properties": {
                                                 "": {
-                                                    "type": "string"
+                                                    "type": "integer"
                                                 }
                                             },
                                             "type": "object"
@@ -1299,7 +1288,18 @@
                         "type": "string"
                     }
                 },
-                "type": "object"
+                "type": "object",
+                "example": {
+                    "200": "Dpmain created",
+                    "501": "Domain not registered error",
+                    "502": "Domain too short error",
+                    "503": "Domain too long error",
+                    "504": "Domain should start from letter",
+                    "505": "Wrong domain error",
+                    "506": "Domain Incorect symbols error",
+                    "508": "Domain already exist",
+                    "509": "Domain control already exist"
+                }
             },
             "Control_domain": {
                 "type": "object",

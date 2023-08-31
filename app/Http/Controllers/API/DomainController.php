@@ -169,19 +169,8 @@ class DomainController extends BaseController
     *  "data": {
     *    {
     *      "domain": "google.com",
-    *      "did": 13,
-    *      "error": "Domain already exist."
+    *      "status": 200,
     *    },
-    *    {
-    *      "domain": "yandex.ru",
-    *      "did": 18,
-    *      "error": "Domain already exist."
-    *    },
-    *    {
-    *      "domain": "site1.net",
-    *      "did": 37,
-    *      "error": "Domain already exist."
-    *    }
     *  },
     *  "message": "Request processed"
     * }),
@@ -212,8 +201,7 @@ class DomainController extends BaseController
       foreach ($domain_arr as $domain_name) {
           //$domain->error = $domain->check_domain_name($domain_name, $check_exist);
           $did_arr[$i]['domain'] = $domain_name;
-          $did_arr[$i]['check'] = $domain->check_domain_name($domain_name, $check_exist);
-          $did_arr[$i]['error'] = $domain->error;
+          $did_arr[$i]['status'] = $domain->check_domain_name($domain_name, $check_exist);
           $i++;
       } 
       
@@ -297,7 +285,7 @@ class DomainController extends BaseController
     *             @OA\Schema(
     *             @OA\Property(
     *               property="did", type="array",
-    *               @OA\Items( @OA\Property( type="string")), 
+    *               @OA\Items( @OA\Property( type="integer")), 
     *               example={
     *                      11,
     *                      12,
@@ -344,8 +332,7 @@ class DomainController extends BaseController
       if($validator->fails()){
           return $this->sendError($validator->errors());       
       }
-      $did_arr = array_map('trim', $input['did']);   
-      foreach ($did_arr as $did) {
+      foreach ($input['did'] as $did) {
           $domain = Domain::find($did);
           $domain_arr[] = ['domain' => $domain->domain ?? false, 'did' =>  $did];
       }       
