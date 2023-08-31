@@ -454,7 +454,7 @@ class ControlController extends BaseController
     
     /**
     * @OA\GET(
-    *     path="/api/control/{uid}/groups/",
+    *     path="/api/control/{uid}/groups",
     *     summary="Get groups  list",
     *     tags={"Control"},     
     *     @OA\Parameter(

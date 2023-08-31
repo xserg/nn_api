@@ -39,12 +39,12 @@ Route::post('/user-settings/{uid}', [SettingsController::class, 'store'])->middl
 Route::get('/user-settings/{uid}/{sid}', [SettingsController::class, 'show'])->middleware(['auth:sanctum', 'ability:settings-get']);
 Route::post('/user-settings/{uid}/update', [SettingsController::class, 'update2'])->middleware(['auth:sanctum', 'ability:settings-update']);
 Route::delete('/user-settings/{uid}/{sid}', [SettingsController::class, 'destroy'])->middleware(['auth:sanctum', 'ability:settings-delete']);
-  
+
+Route::get('/control/{uid}/groups', [ControlController::class, 'get_group_name'])->middleware(['auth:sanctum', 'ability:control-groups']);  
 Route::post('/control/{uid}/add/', [ControlController::class, 'store'])->middleware(['auth:sanctum', 'ability:control-add']);
 Route::get('/control/{uid}/{cid}/set_lr/{lr}', [ControlController::class, 'set_cid_lr'])->middleware(['auth:sanctum', 'ability:control-set-lr']);
 Route::get('/control/did_data/{uid}', [ControlController::class, 'get_did_data'])->middleware(['auth:sanctum', 'ability:control-get-did-data']);
 Route::get('/control/{uid}/{cid}', [ControlController::class, 'get_did_data'])->middleware(['auth:sanctum', 'ability:control-get']);
 Route::get('/control/{cid}', [ControlController::class, 'show'])->middleware(['auth:sanctum', 'ability:control-get']);
-Route::get('/control/{uid}/groups/', [ControlController::class, 'get_group_name'])->middleware(['auth:sanctum', 'ability:control-groups']);
 Route::delete('/control/{uid}/{cid}', [ControlController::class, 'destroy'])->middleware(['auth:sanctum', 'ability:control-delete']);
 

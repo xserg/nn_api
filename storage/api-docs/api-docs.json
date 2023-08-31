@@ -435,13 +435,13 @@
                 ]
             }
         },
-        "/api/control/{uid}/groups/": {
+        "/api/control/{uid}/groups": {
             "get": {
                 "tags": [
                     "Control"
                 ],
                 "summary": "Get groups  list",
-                "operationId": "cbcca4999a6199863a27d185dce705f7",
+                "operationId": "d5019331099650f16663c95880fbac11",
                 "parameters": [
                     {
                         "name": "uid",
