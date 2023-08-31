@@ -53,40 +53,6 @@ class AuthController extends BaseController
         } 
     }
 
-    /**
-    * @OA\Post(
-    *     path="/api/register",
-    *     summary="Adds a new user",
-    *     tags={"Auth"},     
-    *     @OA\RequestBody(
-    *         @OA\MediaType(
-    *             mediaType="application/json",
-    *             @OA\Schema(
-    *             required={"name"},
-    *             required={"enail"},
-    *             required={"name"},
-    *             required={"password"},
-    *             required={"confirm_password"},                    
-    *             @OA\Property(property="name", type="string"),
-    *             @OA\Property(property="email", type="string"),
-    *             @OA\Property(property="password", type="string"),
-    *             @OA\Property(property="confirm_password", type="string"),
-    *             )
-    *         )
-    *    ),    
-    *     @OA\Response(
-    *         response=200,
-    *         description="OK",
-    *         response=200,
-    *         description="control response",
-    *         @OA\JsonContent(
-    *             type="array",
-    *             @OA\Items(ref="#/components/schemas/User")
-    *         ),
-    *     ),
-    *     security={ * {"sanctum": {}}, * },
-    * )    
-    */      
     public function signup(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -103,7 +69,16 @@ class AuthController extends BaseController
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-        $success['token'] =  $user->createToken('MyAuthApp')->plainTextToken;
+        /*
+        $access_list = [
+          'domain-add', 'domain-get', 'domain-delete', 'domain-update',
+          'control-add', 'control-get', 'control-delete', 'control-update',
+          'language-add', 'language-get', 'language-delete', 'language-update',
+          'lr-add', 'lr-get', 'lr-delete', 'lr-update',
+          'setting-add', 'setting-get', 'setting-delete', 'setting-update',
+        ];
+        */
+        $success['token'] =  $user->createToken('MyAuthApp', $access_list)->plainTextToken;
         $success['name'] =  $user->name;
    
         return $this->sendResponse($success, 'User created successfully.');
