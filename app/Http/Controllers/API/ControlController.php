@@ -95,10 +95,10 @@ class ControlController extends BaseController
             
             //}
             if ($domain->did) {
-              if (Control::where('uid', $input['uid'])->where('did', $domain->did)->first()) {
+              if ($res = Control::where('uid', $input['uid'])->where('did', $domain->did)->first()) {
                   $did_arr[$i]['status'] = 509; //' Control domain exist for this user';
               } else {
-                  Control::create([
+                  $res = Control::create([
                     'uid' => $input['uid'], 
                     'did' => $domain->did,
                     'yid' => 0,	
@@ -112,6 +112,7 @@ class ControlController extends BaseController
                     'external_excluded' => ''
                 ]);
               }
+              $did_arr[$i]['cid'] = $res->cid;
             }
             $i++;
         } 
@@ -389,7 +390,7 @@ class ControlController extends BaseController
       $input = $request->all();
       $did = null;
       $did_arr = null;
-      $select = ['control_domains.*', 'control_groups.group_name'];
+      $select = ['control_domains.*', 'control_groups.group_name', 'nn_base.base_domains.domain'];
       
       if(isset($input['did'])) {
         if (is_array($input['did'])) {
@@ -410,7 +411,7 @@ class ControlController extends BaseController
         } else {
             $select = [$input['select']];
         }
-        $select=array_merge(array_map('trim', $select), ['control_domains.uid', 'cid', 'did']);
+        $select=array_merge(array_map('trim', $select), ['control_domains.uid', 'cid', 'control_domains.did', 'domain']);
       }
       
       if (!empty($input['domain'])) {
@@ -435,13 +436,14 @@ class ControlController extends BaseController
         
         $control = Control::select($select)
         ->where('control_domains.uid', $uid)
+        ->leftJoin('nn_base.base_domains', 'control_domains.did', '=', 'base_domains.did')
         ->leftJoin('control_groups', 'control_domains.gid', '=', 'control_groups.gid')
         //->orderBy('cid')
         ->when($did, function ($query, $did) {
-                    return $query->where('did', $did);
+                    return $query->where('control_domains.did', $did);
                 })
         ->when($did_arr, function ($query, $did_arr) {
-                    return $query->wherein('did', $did_arr);
+                    return $query->wherein('control_domains.did', $did_arr);
                 })
         ->when($cid, function ($query, $cid) {
                     return $query->where('cid', $cid);
