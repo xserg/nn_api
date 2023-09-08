@@ -5,13 +5,13 @@
         "version": "1.0"
     },
     "paths": {
-        "/api/login": {
+        "/api/token/add": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Login user",
-                "operationId": "d846bd02cfbdd992c40bfde736b5f21d",
+                "summary": "Add new access token to user",
+                "operationId": "273ed9a69284a3650f9b0f945f087264",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -25,6 +25,39 @@
                                     },
                                     "password": {
                                         "type": "string"
+                                    },
+                                    "access": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "example": [
+                                            "domain-add",
+                                            "domain-get",
+                                            "domain-delete",
+                                            "domain-update",
+                                            "control-add",
+                                            "control-get",
+                                            "control-delete",
+                                            "control-update",
+                                            "language-add",
+                                            "language-get",
+                                            "language-delete",
+                                            "language-update",
+                                            "lr-add",
+                                            "lr-get",
+                                            "lr-delete",
+                                            "lr-update",
+                                            "setting-add",
+                                            "setting-get",
+                                            "setting-delete",
+                                            "setting-update"
+                                        ]
                                     }
                                 },
                                 "type": "object"
@@ -52,6 +85,53 @@
                         "sanctum": []
                     }
                 ]
+            }
+        },
+        "/api/token/delete": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Delete access token by id",
+                "operationId": "9e054eafe6e07d2424894a27d901928c",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "token_id"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "token_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "control response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/control/{uid}/add": {

@@ -497,7 +497,7 @@ class ControlController extends BaseController
         $input = $request->all();
         $gid_arr = null;
         
-        if(isset($input['gid'])) {
+        if($input['gid']) {
           if (is_array($input['gid'])) {
               $gid_arr = $input['gid'];
           } elseif (preg_match('/,/', $input['gid'])) {
@@ -512,6 +512,10 @@ class ControlController extends BaseController
                       return $query->wherein('gid', $gid_arr);
                   })                             
           ->get();
+          
+          if ($groups->isEmpty()) {
+              return $this->sendError('Group does not exist.');
+          }        
           return $this->sendResponse(GroupResource::collection($groups), 'group fetched.');        
     }
   
