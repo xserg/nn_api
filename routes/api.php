@@ -21,7 +21,8 @@ use App\Http\Controllers\API\SettingsController;
 */
 
 Route::post('/token/add', [AuthController::class, 'signin']);
-Route::post('/token/delete', [AuthController::class, 'delete_token']);
+Route::delete('/token/delete', [AuthController::class, 'delete_token']);
+Route::post('/token/update', [AuthController::class, 'update_token']);
 //Route::post('register', [AuthController::class, 'signup']);
 
 Route::resource('domains', DomainController::class)->middleware(['auth:sanctum', 'ability:domain-get']);

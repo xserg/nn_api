@@ -79,21 +79,16 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                }
             }
         },
         "/api/token/delete": {
-            "post": {
+            "delete": {
                 "tags": [
                     "Auth"
                 ],
                 "summary": "Delete access token by id",
-                "operationId": "9e054eafe6e07d2424894a27d901928c",
+                "operationId": "d14ceae6b64130d50a38b2cce5c42ed5",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -110,6 +105,86 @@
                                     },
                                     "token_id": {
                                         "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "control response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/token/update": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Update access token by token_id",
+                "operationId": "da41167500b663415c1c7f0de67c194d",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "token_id"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "token_id": {
+                                        "type": "integer"
+                                    },
+                                    "access": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "example": [
+                                            "domain-add",
+                                            "domain-get",
+                                            "domain-delete",
+                                            "domain-update",
+                                            "control-add",
+                                            "control-get",
+                                            "control-delete",
+                                            "control-update",
+                                            "language-add",
+                                            "language-get",
+                                            "language-delete",
+                                            "language-update",
+                                            "lr-add",
+                                            "lr-get",
+                                            "lr-delete",
+                                            "lr-update",
+                                            "setting-add",
+                                            "setting-get",
+                                            "setting-delete",
+                                            "setting-update"
+                                        ]
                                     }
                                 },
                                 "type": "object"
