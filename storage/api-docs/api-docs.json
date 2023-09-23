@@ -1086,6 +1086,859 @@
                 ]
             }
         },
+        "/api/notifies": {
+            "get": {
+                "tags": [
+                    "Notify"
+                ],
+                "summary": "Get notify list",
+                "operationId": "e364c07160da60230f05de5d2559175a",
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Notify"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/notify": {
+            "post": {
+                "tags": [
+                    "Notify"
+                ],
+                "summary": "Adds a new notify",
+                "operationId": "bf7a6e93f1cf470a69300021b87c3424",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "group_name"
+                                ],
+                                "properties": {
+                                    "uid": {
+                                        "type": "integer"
+                                    },
+                                    "type": {
+                                        "type": "string"
+                                    },
+                                    "group_name": {
+                                        "type": "string"
+                                    },
+                                    "message": {
+                                        "type": "string"
+                                    },
+                                    "data": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Location"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/notify/{nid}": {
+            "get": {
+                "tags": [
+                    "Notify"
+                ],
+                "summary": "Get notify by nid",
+                "operationId": "0063a0ca445756e536045d57759cd506",
+                "parameters": [
+                    {
+                        "name": "nid",
+                        "in": "path",
+                        "description": "nid",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Notify"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Notify"
+                ],
+                "summary": "Updates notify",
+                "operationId": "c9d1fc0f0f8851deac3c2f5c2304b926",
+                "parameters": [
+                    {
+                        "name": "nid",
+                        "in": "path",
+                        "description": "nid to fetch",
+                        "required": true,
+                        "allowEmptyValue": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "group_name"
+                                ],
+                                "properties": {
+                                    "uid": {
+                                        "type": "integer"
+                                    },
+                                    "type": {
+                                        "type": "string"
+                                    },
+                                    "group_name": {
+                                        "type": "string"
+                                    },
+                                    "message": {
+                                        "type": "string"
+                                    },
+                                    "data": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Notify"
+                ],
+                "description": "deletes notify by nid",
+                "operationId": "09f81535245c53cb5224231494639182",
+                "parameters": [
+                    {
+                        "name": "nid",
+                        "in": "path",
+                        "description": "nid to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "notify deleted"
+                    },
+                    "default": {
+                        "description": "unexpected error"
+                    }
+                }
+            }
+        },
+        "/api/notify/get/{uid}/{status}": {
+            "get": {
+                "tags": [
+                    "Notify"
+                ],
+                "summary": "Get notify by uid",
+                "operationId": "a0a35144a92562b74585047cacbc135d",
+                "parameters": [
+                    {
+                        "name": "uid",
+                        "in": "path",
+                        "description": "uid",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "4"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "description": "status",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "0"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Notify"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/notify/set_status": {
+            "post": {
+                "tags": [
+                    "Notify"
+                ],
+                "summary": "Update notify status",
+                "operationId": "b288495a7e1a2e0bfbeb1f9d885eda24",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "status"
+                                ],
+                                "properties": {
+                                    "uid": {
+                                        "type": "integer"
+                                    },
+                                    "nid": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "status": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "uid": 4,
+                                    "nid": [
+                                        1,
+                                        2
+                                    ],
+                                    "status": 1
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Location"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/schedulers": {
+            "get": {
+                "tags": [
+                    "Scheduler"
+                ],
+                "summary": "Get schedulers list",
+                "operationId": "0268a319844b382038636cd877656d67",
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Scheduler"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/scheduler": {
+            "post": {
+                "tags": [
+                    "Scheduler"
+                ],
+                "summary": "Adds a new scheduler",
+                "operationId": "e55019692c87189c9a57e46879550588",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "cid"
+                                ],
+                                "properties": {
+                                    "uid": {
+                                        "type": "integer"
+                                    },
+                                    "cid": {
+                                        "type": "integer"
+                                    },
+                                    "controller": {
+                                        "type": "string"
+                                    },
+                                    "week": {
+                                        "type": "integer"
+                                    },
+                                    "month": {
+                                        "type": "integer"
+                                    },
+                                    "time": {
+                                        "type": "string"
+                                    },
+                                    "input_data": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Scheduler"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/schedulers/{sid}": {
+            "get": {
+                "tags": [
+                    "Scheduler"
+                ],
+                "summary": "Get scheduler by sid",
+                "operationId": "aebd61ca439e5765bd7c878ebf8366cd",
+                "parameters": [
+                    {
+                        "name": "sid",
+                        "in": "path",
+                        "description": "sid to fetch",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "scheduler response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Scheduler"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Scheduler"
+                ],
+                "summary": "Updates a scheduler",
+                "operationId": "81244312197a860c39e2b8a2d861aac0",
+                "parameters": [
+                    {
+                        "name": "sid",
+                        "in": "path",
+                        "description": "sid to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "cid"
+                                ],
+                                "properties": {
+                                    "uid": {
+                                        "type": "integer"
+                                    },
+                                    "cid": {
+                                        "type": "integer"
+                                    },
+                                    "controller": {
+                                        "type": "string"
+                                    },
+                                    "week": {
+                                        "type": "integer"
+                                    },
+                                    "month": {
+                                        "type": "integer"
+                                    },
+                                    "time": {
+                                        "type": "integer"
+                                    },
+                                    "input_data": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Scheduler"
+                ],
+                "description": "deletes scheduler by sid",
+                "operationId": "ca380078e3d26f4d805b5a2e5098ea64",
+                "parameters": [
+                    {
+                        "name": "sid",
+                        "in": "path",
+                        "description": "sid to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "scheduler deleted"
+                    },
+                    "default": {
+                        "description": "unexpected error"
+                    }
+                }
+            }
+        },
+        "/api/schedulers/get/{uid}": {
+            "get": {
+                "tags": [
+                    "Scheduler"
+                ],
+                "summary": "Get Scheduler by uid",
+                "operationId": "00907afd002084f8787e830db4641d39",
+                "parameters": [
+                    {
+                        "name": "uid",
+                        "in": "path",
+                        "description": "uid",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "4"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Scheduler"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/schedulers/get_cid": {
+            "post": {
+                "tags": [
+                    "Scheduler"
+                ],
+                "summary": "Get by params",
+                "operationId": "844e3be3be58362ac7f0d33e07a4527c",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "cid"
+                                ],
+                                "properties": {
+                                    "uid": {
+                                        "type": "integer"
+                                    },
+                                    "cid": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "controller": {
+                                        "type": "string"
+                                    },
+                                    "expect": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "uid": 4,
+                                    "cid": [
+                                        1,
+                                        2
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Scheduler"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/schedulers/get_expect": {
+            "get": {
+                "tags": [
+                    "Scheduler"
+                ],
+                "summary": "Get expected schedulers",
+                "operationId": "f9c6a76ef1cf9b8b70d7a961f9f4db85",
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Scheduler"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/schedulers/is_exists": {
+            "post": {
+                "tags": [
+                    "Scheduler"
+                ],
+                "summary": "Check exist",
+                "operationId": "09b4a8387c055da5222411b7c3040fed",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "cid"
+                                ],
+                                "properties": {
+                                    "uid": {
+                                        "type": "integer"
+                                    },
+                                    "cid": {
+                                        "type": "integer"
+                                    },
+                                    "controller": {
+                                        "type": "string"
+                                    },
+                                    "week": {
+                                        "type": "integer"
+                                    },
+                                    "month": {
+                                        "type": "integer"
+                                    },
+                                    "time": {
+                                        "type": "integer"
+                                    },
+                                    "input_data": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Scheduler"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/schedulers/next_time": {
+            "post": {
+                "tags": [
+                    "Scheduler"
+                ],
+                "summary": "Get next_time",
+                "operationId": "9e67c90d64bb50cd812741de92f74216",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "last_time": {
+                                        "type": "integer",
+                                        "example": 0
+                                    },
+                                    "week": {
+                                        "type": "integer"
+                                    },
+                                    "month": {
+                                        "type": "integer"
+                                    },
+                                    "time": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Scheduler"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/schedulers/update_time/{sid}": {
+            "post": {
+                "tags": [
+                    "Scheduler"
+                ],
+                "summary": "Update time",
+                "operationId": "dab5a9e815b91988953a9d28d5dac480",
+                "parameters": [
+                    {
+                        "name": "sid",
+                        "in": "path",
+                        "description": "sid to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "week": {
+                                        "type": "integer"
+                                    },
+                                    "month": {
+                                        "type": "integer"
+                                    },
+                                    "time": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Scheduler"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/user-settings/{uid}": {
             "get": {
                 "tags": [
@@ -1371,6 +2224,110 @@
                     }
                 }
             }
+        },
+        "/api/tasks": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Get tasks list",
+                "operationId": "c641d93887fb50d557f18a7d11d0fd70",
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Task"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/tasks/{lr}": {
+            "get": {
+                "tags": [
+                    "Lr"
+                ],
+                "summary": "Get location by lr",
+                "operationId": "c7829411168b6682eabfb12c22fdd1c5",
+                "parameters": [
+                    {
+                        "name": "lr",
+                        "in": "path",
+                        "description": "lr to fetch",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Location"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/tasks/search/{search}": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Get lr search",
+                "operationId": "ed49c7a659c1243a6f16d524851ad956",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "path",
+                        "description": "search",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Мос"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Location"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -1619,6 +2576,147 @@
                             },
                             "pop": {
                                 "type": "integer"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "Notify": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "required": [
+                            "name"
+                        ],
+                        "properties": {
+                            "nid": {
+                                "type": "integer"
+                            },
+                            "uid": {
+                                "type": "integer"
+                            },
+                            "type": {
+                                "type": "string",
+                                "example": [
+                                    "default",
+                                    "success",
+                                    "info",
+                                    "primary",
+                                    "warning",
+                                    "danger",
+                                    "dark"
+                                ]
+                            },
+                            "group_name": {
+                                "type": "string"
+                            },
+                            "create_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "resd_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "message": {
+                                "type": "string"
+                            },
+                            "data": {
+                                "type": "string"
+                            },
+                            "status": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "Scheduler": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "required": [
+                            "uid"
+                        ],
+                        "properties": {
+                            "sid": {
+                                "type": "integer"
+                            },
+                            "uid": {
+                                "type": "integer"
+                            },
+                            "cid": {
+                                "type": "integer"
+                            },
+                            "controller": {
+                                "type": "string"
+                            },
+                            "group_name": {
+                                "type": "string"
+                            },
+                            "last_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "next_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "week": {
+                                "type": "string"
+                            },
+                            "month": {
+                                "type": "string"
+                            },
+                            "time": {
+                                "type": "string"
+                            },
+                            "input": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "Task": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "required": [
+                            "name"
+                        ],
+                        "properties": {
+                            "nid": {
+                                "type": "integer"
+                            },
+                            "uid": {
+                                "type": "integer"
+                            },
+                            "type": {
+                                "type": "string"
+                            },
+                            "group_name": {
+                                "type": "string"
+                            },
+                            "create_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "resd_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "message": {
+                                "type": "string"
+                            },
+                            "data": {
+                                "type": "string"
+                            },
+                            "status": {
+                                "type": "string"
                             }
                         },
                         "type": "object"

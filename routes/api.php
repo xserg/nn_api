@@ -9,6 +9,9 @@ use App\Http\Controllers\API\LanguageController;
 use App\Http\Controllers\API\LrController;
 use App\Http\Controllers\API\ControlController;
 use App\Http\Controllers\API\SettingsController;
+use App\Http\Controllers\API\TaskController;
+use App\Http\Controllers\API\NotifyController;
+use App\Http\Controllers\API\SchedulerController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -50,3 +53,17 @@ Route::get('/control/{uid}/{cid}', [ControlController::class, 'get_did_data'])->
 Route::get('/control/{cid}', [ControlController::class, 'show'])->middleware(['auth:sanctum', 'ability:control-get']);
 Route::delete('/control/{uid}/{cid}', [ControlController::class, 'destroy'])->middleware(['auth:sanctum', 'ability:control-delete']);
 
+Route::resource('tasks', TaskController::class)->middleware('auth:sanctum');
+Route::resource('notify', NotifyController::class)->middleware('auth:sanctum');
+
+Route::get('/notify/get/{uid}/{status}', [NotifyController::class, 'search'])->middleware(['auth:sanctum', 'ability:notify-get']);
+Route::post('/notify/set_status', [NotifyController::class, 'set_status'])->middleware(['auth:sanctum', 'ability:notify-set']);
+Route::get('/schedulers/get/{uid}', [SchedulerController::class, 'search'])->middleware(['auth:sanctum', 'ability:scheduler-get']);
+
+Route::post('/schedulers/get_cid', [SchedulerController::class, 'get_cid'])->middleware(['auth:sanctum', 'ability:scheduler-get']);
+Route::get('/schedulers/get_expect', [SchedulerController::class, 'get_expect'])->middleware(['auth:sanctum', 'ability:scheduler-get']);
+Route::post('/schedulers/is_exists', [SchedulerController::class, 'is_exists'])->middleware(['auth:sanctum', 'ability:scheduler-get']);
+Route::post('/schedulers/next_time', [SchedulerController::class, 'next_time'])->middleware(['auth:sanctum', 'ability:scheduler-get']);
+Route::post('/schedulers/update_time/{sid}', [SchedulerController::class, 'update_time'])->middleware(['auth:sanctum', 'ability:scheduler-update']);
+Route::post('/schedulers/update/{sid}', [SchedulerController::class, 'update'])->middleware(['auth:sanctum', 'ability:scheduler-update']);
+Route::resource('schedulers', SchedulerController::class)->middleware('auth:sanctum');
