@@ -53,24 +53,24 @@ class TaskController extends BaseController
     *         description="OK",
     *         response=200,
     *         description="lr response",
-    *         @OA\JsonContent(ref="#/components/schemas/Location"),
+    *         @OA\JsonContent(ref="#/components/schemas/Task"),
     *     ),
     *     security={ * {"sanctum": {}}, * },
     * )
     */        
-    public function show($id)
+    public function show($tid)
     {
-        $lr = Lr::find($id);
-        if (is_null($lr)) {
-            return $this->sendError('Lr does not exist.');
+        $task = Task::find($id);
+        if (is_null($task)) {
+            return $this->sendError('Task does not exist.');
         }
-        return $this->sendResponse(new LrResource($lr), 'Lr fetched.');
+        return $this->sendResponse(new TaskResource($task), 'Task fetched.');
     }
     
     /**
     * @OA\GET(
     *     path="/api/tasks/search/{search}",
-    *     summary="Get lr search",
+    *     summary="Get Task search",
     *     tags={"Tasks"},         
     *     @OA\Parameter(
     *         description="search",
@@ -87,14 +87,14 @@ class TaskController extends BaseController
     *         description="OK",
     *         response=200,
     *         description="lr response",
-    *         @OA\JsonContent(ref="#/components/schemas/Location"),
+    *         @OA\JsonContent(ref="#/components/schemas/Task"),
     *     ),
     *     security={ * {"sanctum": {}}, * },
     * )
     */  
     public function search($search)
     {
-        $lr = Lr::where('name', 'like', $search . '%')->get();
-        return $this->sendResponse(LrResource::collection($lr), 'Lrs fetched.');
+        $task = Task::where('name', 'like', $search . '%')->get();
+        return $this->sendResponse(TaskResource::collection($task), 'Task fetched.');
     }
 }
