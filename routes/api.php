@@ -53,9 +53,7 @@ Route::get('/control/{uid}/{cid}', [ControlController::class, 'get_did_data'])->
 Route::get('/control/{cid}', [ControlController::class, 'show'])->middleware(['auth:sanctum', 'ability:control-get']);
 Route::delete('/control/{uid}/{cid}', [ControlController::class, 'destroy'])->middleware(['auth:sanctum', 'ability:control-delete']);
 
-Route::resource('tasks', TaskController::class)->middleware('auth:sanctum');
 Route::resource('notify', NotifyController::class)->middleware('auth:sanctum');
-
 Route::get('/notify/get/{uid}/{status}', [NotifyController::class, 'search'])->middleware(['auth:sanctum', 'ability:notify-get']);
 Route::post('/notify/set_status', [NotifyController::class, 'set_status'])->middleware(['auth:sanctum', 'ability:notify-set']);
 Route::get('/schedulers/get/{uid}', [SchedulerController::class, 'search'])->middleware(['auth:sanctum', 'ability:scheduler-get']);
@@ -67,3 +65,16 @@ Route::post('/schedulers/next_time', [SchedulerController::class, 'next_time'])-
 Route::post('/schedulers/update_time/{sid}', [SchedulerController::class, 'update_time'])->middleware(['auth:sanctum', 'ability:scheduler-update']);
 Route::post('/schedulers/update/{sid}', [SchedulerController::class, 'update'])->middleware(['auth:sanctum', 'ability:scheduler-update']);
 Route::resource('schedulers', SchedulerController::class)->middleware('auth:sanctum');
+
+Route::post('/tasks/set_status', [TaskController::class, 'set_status'])->middleware(['auth:sanctum', 'ability:task-set']);
+Route::post('/tasks/update/{tid}', [TaskController::class, 'update'])->middleware(['auth:sanctum', 'ability:task-set']);
+Route::post('/tasks/get', [TaskController::class, 'search'])->middleware(['auth:sanctum', 'ability:task-get']);
+Route::post('/tasks/is_exists', [TaskController::class, 'is_exists'])->middleware(['auth:sanctum', 'ability:task-get']);
+Route::get('/tasks/html_status', [TaskController::class, 'html_status'])->middleware(['auth:sanctum', 'ability:task-get']);
+Route::get('/tasks/html_types', [TaskController::class, 'html_types'])->middleware(['auth:sanctum', 'ability:task-get']);
+Route::post('/tasks/html_task', [TaskController::class, 'html_task'])->middleware(['auth:sanctum', 'ability:task-get']);
+Route::post('/tasks/html_table', [TaskController::class, 'html_table'])->middleware(['auth:sanctum', 'ability:task-get']);
+Route::resource('tasks', TaskController::class)->middleware('auth:sanctum');
+
+
+

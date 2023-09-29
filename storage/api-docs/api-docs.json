@@ -1398,7 +1398,7 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/Location"
+                                        "$ref": "#/components/schemas/Notify"
                                     }
                                 }
                             }
@@ -2252,33 +2252,59 @@
                         "sanctum": []
                     }
                 ]
-            }
-        },
-        "/api/tasks/{lr}": {
-            "get": {
+            },
+            "post": {
                 "tags": [
-                    "Lr"
+                    "Tasks"
                 ],
-                "summary": "Get location by lr",
-                "operationId": "c7829411168b6682eabfb12c22fdd1c5",
-                "parameters": [
-                    {
-                        "name": "lr",
-                        "in": "path",
-                        "description": "lr to fetch",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
+                "summary": "Adds a new tasks",
+                "operationId": "53feb2a5084021acb62923cf3cd7a873",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "cid"
+                                ],
+                                "properties": {
+                                    "uid": {
+                                        "type": "integer"
+                                    },
+                                    "engine": {
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "type": "string"
+                                    },
+                                    "cid": {
+                                        "type": "integer"
+                                    },
+                                    "amount": {
+                                        "type": "integer"
+                                    },
+                                    "data": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "new"
+                                    }
+                                },
+                                "type": "object"
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "lr response",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Location"
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Task"
+                                    }
                                 }
                             }
                         }
@@ -2291,22 +2317,21 @@
                 ]
             }
         },
-        "/api/tasks/search/{search}": {
+        "/api/tasks/{tid}": {
             "get": {
                 "tags": [
                     "Tasks"
                 ],
-                "summary": "Get lr search",
-                "operationId": "ed49c7a659c1243a6f16d524851ad956",
+                "summary": "Get task by tid",
+                "operationId": "a8917113303027c349e40f71ee45ef6d",
                 "parameters": [
                     {
-                        "name": "search",
+                        "name": "tid",
                         "in": "path",
-                        "description": "search",
+                        "description": "tid to fetch",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "example": "Мос"
+                            "type": "integer"
                         }
                     }
                 ],
@@ -2316,7 +2341,409 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Location"
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Updates task",
+                "operationId": "68abe578d569ee1384216026fd69c3f6",
+                "parameters": [
+                    {
+                        "name": "tid",
+                        "in": "path",
+                        "description": "tid to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "uid": {
+                                        "type": "integer"
+                                    },
+                                    "cid": {
+                                        "type": "integer"
+                                    },
+                                    "success": {
+                                        "type": "integer"
+                                    },
+                                    "fail": {
+                                        "type": "integer"
+                                    },
+                                    "nodata": {
+                                        "type": "integer"
+                                    },
+                                    "output": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    },
+                                    "progress": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/tasks/get": {
+            "post": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Get Task search",
+                "operationId": "ae9c5c09c30ce07aa925c7757c881cce",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "select": {
+                                        "type": "string"
+                                    },
+                                    "uid": {
+                                        "type": "integer"
+                                    },
+                                    "engine": {
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "type": "string"
+                                    },
+                                    "cid": {
+                                        "type": "integer"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "new"
+                                    },
+                                    "field_name": {
+                                        "type": "string"
+                                    },
+                                    "field_op": {
+                                        "type": "string"
+                                    },
+                                    "field_value": {
+                                        "type": "string"
+                                    },
+                                    "field_time_name": {
+                                        "type": "string"
+                                    },
+                                    "field_time_value": {
+                                        "type": "string"
+                                    },
+                                    "limit": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/tasks/set_status": {
+            "post": {
+                "tags": [
+                    "Notify"
+                ],
+                "summary": "Update task status",
+                "operationId": "4e220d9bbe34b3facb05def97636c763",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "status"
+                                ],
+                                "properties": {
+                                    "tid": {
+                                        "type": "integer"
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "tid": 2,
+                                    "status": "deleting"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "task response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Task"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/tasks/is_exist": {
+            "post": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Check Task exist",
+                "operationId": "17e1f9f36b3654e19e97510c09c252e4",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "uid": {
+                                        "type": "integer"
+                                    },
+                                    "engine": {
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "type": "string"
+                                    },
+                                    "cid": {
+                                        "type": "integer"
+                                    },
+                                    "data": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "task response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/tasks/html_status": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Get html status",
+                "operationId": "c6aaad40397ebbb833757f4147ac2380",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/tasks/html_types": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Get html status",
+                "operationId": "ffc033d0bf085fe5d813f7e18dbc5e3d",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/tasks/html_task": {
+            "post": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "html task",
+                "operationId": "641c92c0de7586022cd44c4af5f15ce9",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "tid": {
+                                        "type": "integer"
+                                    },
+                                    "engine": {
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "type": "string"
+                                    },
+                                    "data": {
+                                        "type": "string"
+                                    },
+                                    "owner": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "task response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/tasks/html_table": {
+            "post": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Get Tasks as table",
+                "operationId": "00c52d66ee13255d16311edc6bdc605f",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "select": {
+                                        "type": "string"
+                                    },
+                                    "uid": {
+                                        "type": "integer"
+                                    },
+                                    "engine": {
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "type": "string"
+                                    },
+                                    "cid": {
+                                        "type": "integer"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "new"
+                                    },
+                                    "field_name": {
+                                        "type": "string"
+                                    },
+                                    "field_op": {
+                                        "type": "string"
+                                    },
+                                    "field_value": {
+                                        "type": "string"
+                                    },
+                                    "field_time_name": {
+                                        "type": "string"
+                                    },
+                                    "field_time_value": {
+                                        "type": "string"
+                                    },
+                                    "limit": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Task response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
                                 }
                             }
                         }
@@ -2685,38 +3112,60 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "required": [
-                            "name"
-                        ],
                         "properties": {
-                            "nid": {
+                            "tid": {
                                 "type": "integer"
                             },
                             "uid": {
                                 "type": "integer"
                             },
-                            "type": {
-                                "type": "string"
-                            },
-                            "group_name": {
-                                "type": "string"
-                            },
                             "create_time": {
                                 "type": "string",
                                 "format": "date-time"
                             },
-                            "resd_time": {
+                            "last_time": {
                                 "type": "string",
                                 "format": "date-time"
                             },
-                            "message": {
-                                "type": "string"
+                            "stop_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "engine": {
+                                "type": "string",
+                                "example": "aparser"
+                            },
+                            "type": {
+                                "type": "string",
+                                "example": "freq"
+                            },
+                            "cid": {
+                                "type": "integer"
+                            },
+                            "amount": {
+                                "type": "integer"
+                            },
+                            "success": {
+                                "type": "integer"
+                            },
+                            "fail": {
+                                "type": "integer"
+                            },
+                            "nodata": {
+                                "type": "integer"
                             },
                             "data": {
                                 "type": "string"
                             },
-                            "status": {
+                            "output": {
                                 "type": "string"
+                            },
+                            "progress": {
+                                "type": "integer"
+                            },
+                            "status": {
+                                "type": "string",
+                                "example": "new"
                             }
                         },
                         "type": "object"

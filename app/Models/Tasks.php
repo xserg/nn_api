@@ -10,19 +10,23 @@ use Illuminate\Database\Eloquent\Model;
  *     schema="Task",
  *     type="object",
  *     allOf={
- *         @OA\Schema(
- *             required={"uid"},
- *             @OA\Property(property="nid", type="integer"),
- *             required={"name"},
+ *         @OA\Schema(            
+ *             @OA\Property(property="tid", type="integer"),             
  *             @OA\Property(property="uid", type="integer"),
- *             required={"name"}, 
- *             @OA\Property(property="type", type="string"),
- *             @OA\Property(property="group_name", type="string"),
  *             @OA\Property(property="create_time", type="datetime"),
- *             @OA\Property(property="resd_time", type="datetime"), 
- *             @OA\Property(property="message", type="string"),
+ *             @OA\Property(property="last_time", type="datetime"), 
+ *             @OA\Property(property="stop_time", type="datetime"),  
+ *             @OA\Property(property="engine", type="string", example="aparser"),
+ *             @OA\Property(property="type", type="string", example="freq"),
+ *             @OA\Property(property="cid", type="integer"),  
+ *             @OA\Property(property="amount", type="integer"),
+ *             @OA\Property(property="success", type="integer"),
+ *             @OA\Property(property="fail", type="integer"),
+ *             @OA\Property(property="nodata", type="integer"),    
  *             @OA\Property(property="data", type="string"),
- *             @OA\Property(property="status", type="string"), 
+ *             @OA\Property(property="output", type="string"),
+ *             @OA\Property(property="progress", type="integer"), 
+ *             @OA\Property(property="status", type="string", example="new"), 
  *         )
  *     }
  * )
@@ -37,7 +41,8 @@ class Tasks extends Model
     protected $connection = 'db_main';    
 
     protected $fillable = [
-        'tid',
+        //'tid',
+        'uid',
         'create_time',
         'last_time',
         'stop_time',

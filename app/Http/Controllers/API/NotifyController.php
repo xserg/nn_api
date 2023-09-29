@@ -278,7 +278,7 @@ class NotifyController extends BaseController
     *         description="lr response",
     *         @OA\JsonContent(
     *             type="array",
-    *             @OA\Items(ref="#/components/schemas/Location")
+    *             @OA\Items(ref="#/components/schemas/Notify")
     *         ),
     *     ),
     *     security={ * {"sanctum": {}}, * },
