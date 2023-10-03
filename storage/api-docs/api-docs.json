@@ -1092,20 +1092,25 @@
                     "Notify"
                 ],
                 "summary": "Adds a new notify",
+                "description": "Добавить новое извещение.\n    \n  Обязательные поля: uid, type, message.\n  \n  Возможные значения type: 'default', 'success', 'info', 'primary', 'warning', 'danger', 'dark'\n  \n  Возможные значения group_name: 'all', 'metrika', 'webmaster', 'freq', 'pos', 'megaindex', 'yml'",
                 "operationId": "bf7a6e93f1cf470a69300021b87c3424",
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "group_name"
+                                    "uid",
+                                    "type",
+                                    "message"
                                 ],
                                 "properties": {
                                     "uid": {
-                                        "type": "integer"
+                                        "type": "integer",
+                                        "example": 3
                                     },
                                     "type": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "success"
                                     },
                                     "group_name": {
                                         "type": "string"
@@ -1127,13 +1132,13 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "lr response",
+                        "description": "Notify response",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/Location"
+                                        "$ref": "#/components/schemas/Notify"
                                     }
                                 }
                             }

@@ -17,16 +17,21 @@ class NotifyController extends BaseController
     * @OA\Post(
     *     path="/api/notify",
     *     summary="Adds a new notify",
+    *     description="Добавить новое извещение.
+    
+  Обязательные поля: uid, type, message.
+  
+  Возможные значения type: 'default', 'success', 'info', 'primary', 'warning', 'danger', 'dark'
+  
+  Возможные значения group_name: 'all', 'metrika', 'webmaster', 'freq', 'pos', 'megaindex', 'yml'",
     *     tags={"Notify"},       
     *     @OA\RequestBody(
     *         @OA\MediaType(
     *             mediaType="application/json",
     *             @OA\Schema(
-    *             required={"uid"},
-    *             required={"type"},
-    *             required={"group_name"},        
-    *             @OA\Property(property="uid", type="integer"),        
-    *             @OA\Property(property="type", type="string"),    
+    *             required={"uid", "type", "message"},      
+    *             @OA\Property(property="uid", type="integer", example=3),        
+    *             @OA\Property(property="type", type="string", example="success"),    
     *             @OA\Property(property="group_name", type="string"),
     *             @OA\Property(property="message", type="string"),  
     *             @OA\Property(property="data", type="string"),
@@ -38,10 +43,10 @@ class NotifyController extends BaseController
     *         response=200,
     *         description="OK",
     *         response=200,
-    *         description="lr response",
+    *         description="Notify response",
     *         @OA\JsonContent(
     *             type="array",
-    *             @OA\Items(ref="#/components/schemas/Location")
+    *             @OA\Items(ref="#/components/schemas/Notify")
     *         ),
     *     ),
     *     security={ * {"sanctum": {}}, * },

@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  *         @OA\Schema(
  *             required={"uid"},
  *             @OA\Property(property="nid", type="integer"),
- *             required={"name"},
+ *             required={"type"},
  *             @OA\Property(property="uid", type="integer"),
  *             required={"name"}, 
  *             @OA\Property(property="type", type="string", example={"default", "success", "info", "primary", "warning", "danger", "dark"}),
