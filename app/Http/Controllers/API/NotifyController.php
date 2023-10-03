@@ -12,29 +12,6 @@ class NotifyController extends BaseController
 {
     public $notify_types=['default', 'success', 'info', 'primary', 'warning', 'danger', 'dark'];
     public $notify_groups=['all', 'metrika', 'webmaster', 'freq', 'pos', 'megaindex', 'yml'];
-    /**
-    * @OA\GET(
-    *     path="/api/notifies",
-    *     summary="Get notify list",
-    *     tags={"Notify"},         
-    *     @OA\Response(
-    *         response=200,
-    *         description="OK",
-    *         response=200,
-    *         description="lr response",
-    *         @OA\JsonContent(
-    *             type="array",
-    *             @OA\Items(ref="#/components/schemas/Notify")
-    *         ),
-    *     ),
-    *     security={ * {"sanctum": {}}, * },
-    * )
-    */    
-    public function index()
-    {
-        $notify = Notify::get();
-        return $this->sendResponse(NotifyResource::collection($notify), 'Notify fetched.');
-    }
     
     /**
     * @OA\Post(

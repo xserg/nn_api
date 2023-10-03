@@ -1086,35 +1086,6 @@
                 ]
             }
         },
-        "/api/notifies": {
-            "get": {
-                "tags": [
-                    "Notify"
-                ],
-                "summary": "Get notify list",
-                "operationId": "e364c07160da60230f05de5d2559175a",
-                "responses": {
-                    "200": {
-                        "description": "lr response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Notify"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
         "/api/notify": {
             "post": {
                 "tags": [
@@ -1399,35 +1370,6 @@
                                     "type": "array",
                                     "items": {
                                         "$ref": "#/components/schemas/Notify"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
-        "/api/schedulers": {
-            "get": {
-                "tags": [
-                    "Scheduler"
-                ],
-                "summary": "Get schedulers list",
-                "operationId": "0268a319844b382038636cd877656d67",
-                "responses": {
-                    "200": {
-                        "description": "lr response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Scheduler"
                                     }
                                 }
                             }
@@ -2226,33 +2168,6 @@
             }
         },
         "/api/tasks": {
-            "get": {
-                "tags": [
-                    "Tasks"
-                ],
-                "summary": "Get tasks list",
-                "operationId": "c641d93887fb50d557f18a7d11d0fd70",
-                "responses": {
-                    "200": {
-                        "description": "lr response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Task"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            },
             "post": {
                 "tags": [
                     "Tasks"
@@ -2470,7 +2385,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "lr response",
+                        "description": "task response",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2490,7 +2405,7 @@
         "/api/tasks/set_status": {
             "post": {
                 "tags": [
-                    "Notify"
+                    "Tasks"
                 ],
                 "summary": "Update task status",
                 "operationId": "4e220d9bbe34b3facb05def97636c763",
@@ -2540,13 +2455,13 @@
                 ]
             }
         },
-        "/api/tasks/is_exist": {
+        "/api/tasks/is_exists": {
             "post": {
                 "tags": [
                     "Tasks"
                 ],
                 "summary": "Check Task exist",
-                "operationId": "17e1f9f36b3654e19e97510c09c252e4",
+                "operationId": "1a0def63a7a0f60f735b68d34fa819ee",
                 "requestBody": {
                     "content": {
                         "application/json": {

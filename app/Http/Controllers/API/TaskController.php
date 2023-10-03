@@ -29,29 +29,6 @@ class TaskController extends BaseController
       </div>',
       'other'    => '<span class="badge badge-light">%status%</span>',
     ];
-    /**
-    * @OA\GET(
-    *     path="/api/tasks",
-    *     summary="Get tasks list",
-    *     tags={"Tasks"},         
-    *     @OA\Response(
-    *         response=200,
-    *         description="OK",
-    *         response=200,
-    *         description="lr response",
-    *         @OA\JsonContent(
-    *             type="array",
-    *             @OA\Items(ref="#/components/schemas/Task")
-    *         ),
-    *     ),
-    *     security={ * {"sanctum": {}}, * },
-    * )
-    */    
-    public function index()
-    {
-        $task = Task::get();
-        return $this->sendResponse(TaskResource::collection($task), 'Task fetched.');
-    }
 
     /**
     * @OA\Post(
@@ -290,7 +267,7 @@ class TaskController extends BaseController
     * @OA\Post(
     *     path="/api/tasks/set_status",
     *     summary="Update task status",
-    *     tags={"Notify"},       
+    *     tags={"Tasks"},       
     *     @OA\RequestBody(
     *         @OA\MediaType(
     *             mediaType="application/json",
@@ -388,7 +365,7 @@ class TaskController extends BaseController
   
     /**
     * @OA\POST(
-    *     path="/api/tasks/is_exist",
+    *     path="/api/tasks/is_exists",
     *     summary="Check Task exist",
     *     tags={"Tasks"},         
     *     @OA\RequestBody(

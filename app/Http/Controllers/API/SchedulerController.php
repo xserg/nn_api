@@ -19,30 +19,6 @@ class SchedulerController extends BaseController
     ];
     
     /**
-    * @OA\GET(
-    *     path="/api/schedulers",
-    *     summary="Get schedulers list",
-    *     tags={"Scheduler"},         
-    *     @OA\Response(
-    *         response=200,
-    *         description="OK",
-    *         response=200,
-    *         description="lr response",
-    *         @OA\JsonContent(
-    *             type="array",
-    *             @OA\Items(ref="#/components/schemas/Scheduler")
-    *         ),
-    *     ),
-    *     security={ * {"sanctum": {}}, * },
-    * )
-    */    
-    public function index()
-    {
-        $scheduler = Scheduler::get();
-        return $this->sendResponse(SchedulerResource::collection($scheduler), 'Scheduler fetched.');
-    }
-    
-    /**
     * @OA\Post(
     *     path="/api/scheduler",
     *     summary="Adds a new scheduler",
