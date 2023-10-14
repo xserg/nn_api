@@ -1388,6 +1388,300 @@
                 ]
             }
         },
+        "/api/requests": {
+            "get": {
+                "tags": [
+                    "Requests"
+                ],
+                "summary": "Get list",
+                "operationId": "07cff2585156fefa3c3b956b2535afe5",
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Request"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/requests/add": {
+            "post": {
+                "tags": [
+                    "Requests"
+                ],
+                "summary": "Adds a new requests from array",
+                "description": "Добавить новый запрос.\n    \n  Обязательное поле: requests array[].\n  \n  Пример: {\n  requests: [\n    запрос,\n    поисковой,\n    купить слона\n  ]\n}\n\nВозвращает массив результатов: \n\n    {\n      request: поисковой,\n      rid: 13,\n      status: 200,\n    },\n\nВозможные значения status:\n\n    {\n      200: Request created,\n      502: Request too short error,\n      503: Request too long error,\n      506: Request Incorect symbols error,\n      508: Request already exist  \n    },\n\n    ",
+                "operationId": "9bdf40e583162e05278c81f823839f33",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "requests": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "example": [
+                                            "запрос",
+                                            "поисковой",
+                                            "купить слона"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Request"
+                                    }
+                                },
+                                "example": {
+                                    "success": true,
+                                    "data": {
+                                        "0": {
+                                            "request": "поисковой",
+                                            "rid": 13,
+                                            "status": 200
+                                        },
+                                        "status_arr": {
+                                            "200": "Request created",
+                                            "502": "Request too short error",
+                                            "503": "Request too long error",
+                                            "506": "Request Incorect symbols error",
+                                            "508": "Request already exist"
+                                        }
+                                    },
+                                    "message": "Request processed"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/requests/{rid}": {
+            "get": {
+                "tags": [
+                    "Requests"
+                ],
+                "summary": "Get request by rid",
+                "operationId": "39e05b8059d1352b4f0fae4d10979410",
+                "parameters": [
+                    {
+                        "name": "rid",
+                        "in": "path",
+                        "description": "rid to fetch",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "domain response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Request"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Requests"
+                ],
+                "summary": "Updates request",
+                "operationId": "9365c4bc26dd41d23813d6a88cb48416",
+                "parameters": [
+                    {
+                        "name": "rid",
+                        "in": "path",
+                        "description": "rid to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "request"
+                                ],
+                                "properties": {
+                                    "request": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Requests"
+                ],
+                "description": "deletes a single request by rid",
+                "operationId": "16c9103fef9a5303a7b74265517bb7aa",
+                "parameters": [
+                    {
+                        "name": "rid",
+                        "in": "path",
+                        "description": "rid",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "request deleted"
+                    },
+                    "default": {
+                        "description": "unexpected error"
+                    }
+                }
+            }
+        },
+        "/api/requests/check": {
+            "post": {
+                "tags": [
+                    "Requests"
+                ],
+                "summary": "Check request from array",
+                "operationId": "8d83565f6bb05af34d06c07db4d6bdec",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "requests": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "example": [
+                                            "запрос",
+                                            "поисковой",
+                                            "купить слона"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "request response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Request"
+                                    }
+                                },
+                                "example": {
+                                    "success": true,
+                                    "data": [
+                                        {
+                                            "request": "поисковой",
+                                            "status": 200
+                                        }
+                                    ],
+                                    "message": "Request processed"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/organic/data": {
+            "get": {
+                "tags": [
+                    "Requests"
+                ],
+                "summary": "Get organic data",
+                "operationId": "dd6c66838521266b43c5fa15380a23f4",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/scheduler": {
             "post": {
                 "tags": [
@@ -2945,7 +3239,7 @@
                             },
                             "type": {
                                 "type": "string",
-                                "example": [
+                                "enum": [
                                     "default",
                                     "success",
                                     "info",
@@ -2953,7 +3247,8 @@
                                     "warning",
                                     "danger",
                                     "dark"
-                                ]
+                                ],
+                                "example": "success"
                             },
                             "group_name": {
                                 "type": "string"
@@ -2977,6 +3272,33 @@
                             }
                         },
                         "type": "object"
+                    }
+                ]
+            },
+            "Request": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Request"
+                    },
+                    {
+                        "required": [
+                            "domain"
+                        ],
+                        "properties": {
+                            "rid": {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            "request": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object",
+                        "example": {
+                            "rid": 10,
+                            "request": "( 1 - 2 )"
+                        }
                     }
                 ]
             },

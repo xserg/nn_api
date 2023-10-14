@@ -12,6 +12,7 @@ use App\Http\Controllers\API\SettingsController;
 use App\Http\Controllers\API\TaskController;
 use App\Http\Controllers\API\NotifyController;
 use App\Http\Controllers\API\SchedulerController;
+use App\Http\Controllers\API\RequestController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -76,5 +77,11 @@ Route::post('/tasks/html_task', [TaskController::class, 'html_task'])->middlewar
 Route::post('/tasks/html_table', [TaskController::class, 'html_table'])->middleware(['auth:sanctum', 'ability:task-get']);
 Route::resource('tasks', TaskController::class)->middleware('auth:sanctum');
 
+
+Route::post('/requests/add', [RequestController::class, 'store_arr'])->middleware(['auth:sanctum', 'ability:request-add']);
+Route::post('/requests/check', [RequestController::class, 'check'])->middleware(['auth:sanctum', 'ability:request-get']);
+Route::get('/organic/data', [RequestController::class, 'organic_data'])->middleware(['auth:sanctum', 'ability:request-get']);
+//Route::post('/requests/update/{rid}', [SchedulerController::class, 'update'])->middleware(['auth:sanctum', 'ability:scheduler-update']);
+Route::resource('requests', RequestController::class)->middleware('auth:sanctum');
 
 
