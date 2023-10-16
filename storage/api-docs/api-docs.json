@@ -1388,35 +1388,6 @@
                 ]
             }
         },
-        "/api/requests": {
-            "get": {
-                "tags": [
-                    "Requests"
-                ],
-                "summary": "Get list",
-                "operationId": "07cff2585156fefa3c3b956b2535afe5",
-                "responses": {
-                    "200": {
-                        "description": "lr response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Request"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
         "/api/requests/add": {
             "post": {
                 "tags": [
@@ -1529,51 +1500,11 @@
                     }
                 ]
             },
-            "put": {
-                "tags": [
-                    "Requests"
-                ],
-                "summary": "Updates request",
-                "operationId": "9365c4bc26dd41d23813d6a88cb48416",
-                "parameters": [
-                    {
-                        "name": "rid",
-                        "in": "path",
-                        "description": "rid to update",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "required": [
-                                    "request"
-                                ],
-                                "properties": {
-                                    "request": {
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            },
             "delete": {
                 "tags": [
                     "Requests"
                 ],
+                "summary": "deletes request by rid",
                 "description": "deletes a single request by rid",
                 "operationId": "16c9103fef9a5303a7b74265517bb7aa",
                 "parameters": [
@@ -1666,7 +1597,7 @@
         "/api/organic/data": {
             "get": {
                 "tags": [
-                    "Requests"
+                    "Organic"
                 ],
                 "summary": "Get organic data",
                 "operationId": "dd6c66838521266b43c5fa15380a23f4",

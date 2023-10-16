@@ -223,51 +223,6 @@ class RequestController extends BaseController
       
       return $this->sendResponse($did_arr, 'Request processed');                
     }
-
-    /**
-     * @OA\Put(
-     *     path="/api/requests/{rid}",
-     *     summary="Updates request",
-     *     tags={"Requests"},    
-     *     @OA\Parameter(
-     *         description="rid to update",
-     *         in="path",
-     *         name="rid",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer",
-     *             format="int64",
-     *         )
-     *     ),    
-     *     @OA\RequestBody(
-     *         @OA\MediaType(
-     *             mediaType="application/x-www-form-urlencoded",
-     *             
-     *             @OA\Schema(  
-     *             required={"request"},              
-     *          
-     *             @OA\Property(property="request", type="string"),               
-     *             ),
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="OK"
-     *     )
-     * )
-     */
-        
-    public function update(Request $request, $rid)
-    {
-        $input = $request->all();
-    
-        $requests = Requests::find($rid);
-        if (is_null($requests)) {
-            return $this->sendError('request does not exist.');
-        }
-        $requests->update(['request' => $input['request']]);  
-        return $this->sendResponse(new RequestResource($requests), 'request updated.');
-    }
     
     /**
      * @OA\Delete(
@@ -309,7 +264,7 @@ class RequestController extends BaseController
     * @OA\GET(
     *     path="/api/organic/data",
     *     summary="Get organic data",
-    *     tags={"Requests"}, 
+    *     tags={"Organic"}, 
     *     @OA\Response(
     *         response=200,
     *         description="OK",
