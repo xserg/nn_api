@@ -982,6 +982,298 @@
                 ]
             }
         },
+        "/api/data": {
+            "get": {
+                "tags": [
+                    "License"
+                ],
+                "summary": "Get plugins data list",
+                "operationId": "58db4f7da672edf49ff4458f6afa2027",
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Data"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/wordpress/add_license": {
+            "post": {
+                "tags": [
+                    "License"
+                ],
+                "summary": "Adds a new license",
+                "operationId": "54a19eb1fe9a9cb2ecd95492207423da",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "domain"
+                                ],
+                                "properties": {
+                                    "plugin": {
+                                        "type": "string",
+                                        "example": "syncer"
+                                    },
+                                    "domain": {
+                                        "type": "string",
+                                        "example": "dev1.nn_api.test"
+                                    },
+                                    "uid": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Keys"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/wordpress/check_license": {
+            "post": {
+                "tags": [
+                    "License"
+                ],
+                "summary": "Check license",
+                "operationId": "ca6fdbdcd2d8465efad0c0d5d73e77e3",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "plugin",
+                                    "key",
+                                    "version",
+                                    "callback"
+                                ],
+                                "properties": {
+                                    "plugin": {
+                                        "type": "string",
+                                        "example": "syncer"
+                                    },
+                                    "key": {
+                                        "type": "string",
+                                        "example": "syncer4PVaqi2OkIO57EqF9dKcAOBGJ"
+                                    },
+                                    "version": {
+                                        "type": "string",
+                                        "example": "23.06.06"
+                                    },
+                                    "callback": {
+                                        "type": "string",
+                                        "example": "http://nn_api.test/api/wordpress/callback"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Keys"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/wordpress/callback": {
+            "get": {
+                "tags": [
+                    "License"
+                ],
+                "summary": "Plugin callback mock",
+                "description": "action",
+                "operationId": "aaa9cf91bc073c308802ebbfc5f31346",
+                "parameters": [
+                    {
+                        "name": "action",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "key",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "callback",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "callback response"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/wordpress/syncer/add_site": {
+            "post": {
+                "tags": [
+                    "License"
+                ],
+                "summary": "Adds a new site",
+                "operationId": "ba969db77815f983803546b93641eadb",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "domain"
+                                ],
+                                "properties": {
+                                    "pin": {
+                                        "type": "string",
+                                        "example": "348461"
+                                    },
+                                    "domain": {
+                                        "type": "string",
+                                        "example": "1.dev.test"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Keys"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/wordpress/syncer/update_pin": {
+            "post": {
+                "tags": [
+                    "License"
+                ],
+                "summary": "Update pin",
+                "operationId": "394af2dc04fdbacf747657632927210e",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "key"
+                                ],
+                                "properties": {
+                                    "key": {
+                                        "type": "string",
+                                        "example": "syncer1Am5tK0sxv3zSdagLsZ0oV7oZ"
+                                    },
+                                    "plugin": {
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "lr response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Keys"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/lrs": {
             "get": {
                 "tags": [
@@ -3068,6 +3360,37 @@
                     }
                 ]
             },
+            "Data": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "required": [
+                            "name"
+                        ],
+                        "properties": {
+                            "pid": {
+                                "type": "integer"
+                            },
+                            "title": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "ident": {
+                                "type": "string"
+                            },
+                            "slug": {
+                                "type": "string"
+                            },
+                            "sort": {
+                                "type": "integer"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
             "Domain": {
                 "type": "object",
                 "allOf": [
@@ -3092,6 +3415,49 @@
                             "did": 10,
                             "domain": "google.com"
                         }
+                    }
+                ]
+            },
+            "Keys": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "required": [
+                            "domain"
+                        ],
+                        "properties": {
+                            "kid": {
+                                "type": "integer"
+                            },
+                            "uid": {
+                                "type": "integer"
+                            },
+                            "pid": {
+                                "type": "integer"
+                            },
+                            "domain": {
+                                "type": "string"
+                            },
+                            "callback": {
+                                "type": "string"
+                            },
+                            "db_key": {
+                                "type": "string"
+                            },
+                            "status": {
+                                "type": "integer"
+                            },
+                            "expired": {
+                                "type": "integer"
+                            },
+                            "bans": {
+                                "type": "integer"
+                            },
+                            "version": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
                     }
                 ]
             },
@@ -3200,6 +3566,29 @@
                             },
                             "status": {
                                 "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "Pin": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "required": [
+                            "pin"
+                        ],
+                        "properties": {
+                            "kid": {
+                                "type": "integer"
+                            },
+                            "pin": {
+                                "type": "integer"
+                            },
+                            "expired_time": {
+                                "type": "string",
+                                "format": "date-time"
                             }
                         },
                         "type": "object"
