@@ -19,14 +19,14 @@ class LicenseController extends BaseController
 {
     /**
     * @OA\GET(
-    *     path="/api/data",
+    *     path="/api/wordpress/get_plugins",
     *     summary="Get plugins data list",
-    *     tags={"License"},
+    *     tags={"WordPress"},
     *     @OA\Response(
     *         response=200,
     *         description="OK",
     *         response=200,
-    *         description="lr response",
+    *         description="data response",
     *         @OA\JsonContent(
     *             type="array",
     *             @OA\Items(ref="#/components/schemas/Data")
@@ -45,16 +45,16 @@ class LicenseController extends BaseController
     * @OA\Post(
     *     path="/api/wordpress/add_license",
     *     summary="Adds a new license",
-    *     tags={"License"},
+    *     tags={"WordPress"},
     *     @OA\RequestBody(
     *         @OA\MediaType(
-    *             mediaType="application/json",
+    *             mediaType="multipart/form-data",
     *             @OA\Schema(
     *             required={"plugin"},
     *             @OA\Property(property="plugin", type="string", example="syncer"),
     *             required={"domain"},
     *             @OA\Property(property="domain", type="string", example="dev1.nn_api.test"),
-    *             @OA\Property(property="uid", type="integer"),
+    *             @OA\Property(property="uid", type="integer", example="0", default=0),
     *             )
     *         )
     *    ),
@@ -62,7 +62,7 @@ class LicenseController extends BaseController
     *         response=200,
     *         description="OK",
     *         response=200,
-    *         description="lr response",
+    *         description="key response",
     *         @OA\JsonContent(
     *             type="array",
     *             @OA\Items(ref="#/components/schemas/Keys")
@@ -98,7 +98,9 @@ class LicenseController extends BaseController
         unset($input['plugin']);
         //$keys = new Keys;
         $keys = Keys::create($input);
-        return $this->sendResponse(new KeysResource($keys), 'Licence created.');
+        $out = new KeysResource($keys);
+        $out['key'] = $key;
+        return $this->sendResponse($out, 'Licence created.');
     }
 
     /**
@@ -175,10 +177,10 @@ class LicenseController extends BaseController
     * @OA\Post(
     *     path="/api/wordpress/check_license",
     *     summary="Check license",
-    *     tags={"License"},
+    *     tags={"WordPress"},
     *     @OA\RequestBody(
     *         @OA\MediaType(
-    *             mediaType="application/json",
+    *             mediaType="multipart/form-data",
     *             @OA\Schema(
     *             required={"plugin", "key", "version", "callback"},
     *             @OA\Property(property="plugin", type="string", example="syncer"),
@@ -192,7 +194,7 @@ class LicenseController extends BaseController
     *         response=200,
     *         description="OK",
     *         response=200,
-    *         description="lr response",
+    *         description="key response",
     *         @OA\JsonContent(
     *             type="array",
     *             @OA\Items(ref="#/components/schemas/Keys")
@@ -291,7 +293,7 @@ class LicenseController extends BaseController
     *     path="/api/wordpress/callback",
     *     summary="Plugin callback mock",
     *         description="action",
-    *     tags={"License"},
+    *     tags={"WordPress"},
     *     @OA\Parameter(
     *         in="query",
     *         name="action",
@@ -331,10 +333,10 @@ class LicenseController extends BaseController
     * @OA\Post(
     *     path="/api/wordpress/syncer/add_site",
     *     summary="Adds a new site",
-    *     tags={"License"},
+    *     tags={"WordPress"},
     *     @OA\RequestBody(
     *         @OA\MediaType(
-    *             mediaType="application/json",
+    *             mediaType="multipart/form-data",
     *             @OA\Schema(
     *             required={"pin"},
     *             @OA\Property(property="pin", type="string" , example="348461"),
@@ -347,7 +349,7 @@ class LicenseController extends BaseController
     *         response=200,
     *         description="OK",
     *         response=200,
-    *         description="lr response",
+    *         description="key response",
     *         @OA\JsonContent(
     *             type="array",
     *             @OA\Items(ref="#/components/schemas/Keys")
@@ -407,14 +409,14 @@ class LicenseController extends BaseController
     * @OA\Post(
     *     path="/api/wordpress/syncer/update_pin",
     *     summary="Update pin",
-    *     tags={"License"},
+    *     tags={"WordPress"},
     *     @OA\RequestBody(
     *         @OA\MediaType(
-    *             mediaType="application/json",
+    *             mediaType="multipart/form-data",
     *             @OA\Schema(
     *             required={"key"},
     *             @OA\Property(property="key", type="string", example="syncer1Am5tK0sxv3zSdagLsZ0oV7oZ"),
-    *             @OA\Property(property="plugin", type="string", example=""),
+    *             @OA\Property(property="plugin", type="string", example="syncer"),
     *             )
     *         )
     *    ),
@@ -422,7 +424,7 @@ class LicenseController extends BaseController
     *         response=200,
     *         description="OK",
     *         response=200,
-    *         description="lr response",
+    *         description="key response",
     *         @OA\JsonContent(
     *             type="array",
     *             @OA\Items(ref="#/components/schemas/Keys")

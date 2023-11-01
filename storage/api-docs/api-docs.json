@@ -982,16 +982,16 @@
                 ]
             }
         },
-        "/api/data": {
+        "/api/wordpress/get_plugins": {
             "get": {
                 "tags": [
-                    "License"
+                    "WordPress"
                 ],
                 "summary": "Get plugins data list",
-                "operationId": "58db4f7da672edf49ff4458f6afa2027",
+                "operationId": "42c992e997247e37bc464d2ecffa4007",
                 "responses": {
                     "200": {
-                        "description": "lr response",
+                        "description": "data response",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1014,13 +1014,13 @@
         "/api/wordpress/add_license": {
             "post": {
                 "tags": [
-                    "License"
+                    "WordPress"
                 ],
                 "summary": "Adds a new license",
                 "operationId": "54a19eb1fe9a9cb2ecd95492207423da",
                 "requestBody": {
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "required": [
                                     "domain"
@@ -1035,7 +1035,9 @@
                                         "example": "dev1.nn_api.test"
                                     },
                                     "uid": {
-                                        "type": "integer"
+                                        "type": "integer",
+                                        "default": 0,
+                                        "example": "0"
                                     }
                                 },
                                 "type": "object"
@@ -1045,7 +1047,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "lr response",
+                        "description": "key response",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1068,13 +1070,13 @@
         "/api/wordpress/check_license": {
             "post": {
                 "tags": [
-                    "License"
+                    "WordPress"
                 ],
                 "summary": "Check license",
                 "operationId": "ca6fdbdcd2d8465efad0c0d5d73e77e3",
                 "requestBody": {
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "required": [
                                     "plugin",
@@ -1107,7 +1109,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "lr response",
+                        "description": "key response",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1130,7 +1132,7 @@
         "/api/wordpress/callback": {
             "get": {
                 "tags": [
-                    "License"
+                    "WordPress"
                 ],
                 "summary": "Plugin callback mock",
                 "description": "action",
@@ -1175,13 +1177,13 @@
         "/api/wordpress/syncer/add_site": {
             "post": {
                 "tags": [
-                    "License"
+                    "WordPress"
                 ],
                 "summary": "Adds a new site",
                 "operationId": "ba969db77815f983803546b93641eadb",
                 "requestBody": {
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "required": [
                                     "domain"
@@ -1203,7 +1205,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "lr response",
+                        "description": "key response",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1226,13 +1228,13 @@
         "/api/wordpress/syncer/update_pin": {
             "post": {
                 "tags": [
-                    "License"
+                    "WordPress"
                 ],
                 "summary": "Update pin",
                 "operationId": "394af2dc04fdbacf747657632927210e",
                 "requestBody": {
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "required": [
                                     "key"
@@ -1244,7 +1246,7 @@
                                     },
                                     "plugin": {
                                         "type": "string",
-                                        "example": ""
+                                        "example": "syncer"
                                     }
                                 },
                                 "type": "object"
@@ -1254,7 +1256,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "lr response",
+                        "description": "key response",
                         "content": {
                             "application/json": {
                                 "schema": {

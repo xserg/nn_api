@@ -84,8 +84,9 @@ Route::post('/requests/add', [RequestController::class, 'store_arr'])->middlewar
 Route::post('/requests/check', [RequestController::class, 'check'])->middleware(['auth:sanctum', 'ability:request-get']);
 Route::get('/organic/data', [RequestController::class, 'organic_data'])->middleware(['auth:sanctum', 'ability:request-get']);
 Route::resource('requests', RequestController::class)->middleware('auth:sanctum');
-Route::resource('data', LicenseController::class)->middleware('auth:sanctum');
+//Route::resource('data', LicenseController::class)->middleware('auth:sanctum');
 
+Route::get('/wordpress/get_plugins', [LicenseController::class, 'index'])->middleware(['auth:sanctum', 'ability:license-get']);
 Route::post('/wordpress/add_license', [LicenseController::class, 'add_license'])->middleware(['auth:sanctum', 'ability:license-add']);
 Route::post('/wordpress/check_license', [LicenseController::class, 'check_license'])->middleware(['auth:sanctum', 'ability:license-get']);
 Route::get('/wordpress/callback', [LicenseController::class, 'callback']);
